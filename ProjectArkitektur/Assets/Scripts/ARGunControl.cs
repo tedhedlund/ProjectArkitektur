@@ -12,13 +12,12 @@ public class ARGunControl : MonoBehaviour
 
     public Camera fpsCamera;
 
-    bool ammoEmpty;
+    bool ammoEmpty = false;
     int maxAmmo = 30;
     int shotsFired;
 
-    float shootTimeInterval = 0.5f;
-    float nextTimeToFire = 0f;
-    float counter = 0.5f;
+    float fireRate = 0.05f;
+    float nextFire;
 
 
     // Start is called before the first frame update
@@ -30,46 +29,53 @@ public class ARGunControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        while (Input.GetMouseButtonDown(0))
+        if (!ammoEmpty)
         {
+           
 
-            if (ammoEmpty)
+            if (Input.GetButton("Fire1"))
             {
-                // Do nothing
+
+
+
+                animator.SetBool("IsFiring", true);
+
+                nextFire += Time.deltaTime;
+
+                if (nextFire >= fireRate && !ammoEmpty)
+                {
+                    Shoot();
+                    shotsFired++;
+                    nextFire = 0;
+                }
+
+                //if (Time.time > nextFire)
+                //{
+                //    nextFire = Time.time + fireRate;
+                //    Shoot();
+                //}
+
+                if (shotsFired >= 30)
+                {
+                    ammoEmpty = true;
+                }
+
+
+
             }
-
-            animator.SetBool("IsFiring", true);
-
-            //Shoot();
-            //shotsFired++;
-
-            counter += Time.deltaTime;
-
-            if (counter >= shootTimeInterval)
-            {
-                Shoot();
-                counter = 0;
-                shotsFired++;
-            }
-            else if (shotsFired >= 30)
-            {
-                ammoEmpty = true;
-            }
-
-            
-
         }
+
+        
         if (Input.GetMouseButtonUp(0))
         {
             animator.SetBool("IsFiring", false);
-            Debug.Log("LMB up");
         }
         else if (Input.GetKeyDown(KeyCode.R))
         {
             animator.SetTrigger("Reload");
         }
 
-        Debug.Log($"Shots fired: {shotsFired}");
+       
     }
 
     void Shoot()
@@ -79,5 +85,7 @@ public class ARGunControl : MonoBehaviour
         {
             Debug.Log(hitInfo.transform.name);
         }
+
+        Debug.Log($"Shots fired: {shotsFired}");
     }
 }
