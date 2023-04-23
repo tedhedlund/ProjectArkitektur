@@ -13,10 +13,10 @@ public class ARGunControl : MonoBehaviour
     public Camera fpsCamera;
 
     bool ammoEmpty = false;
-    int maxAmmo = 30;
-    int shotsFired;
+    int currentAmmo;
+    const int maxAmmo = 30;
 
-    float fireRate = 0.05f;
+    float fireRate = 0.06f;
     float nextFire;
 
 
@@ -24,61 +24,61 @@ public class ARGunControl : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
+        currentAmmo = maxAmmo;
     }
 
     // Update is called once per frame
     void Update()
     {
+        Shoot();
+        Reload();
+           
+    }
+
+    void Reload()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            animator.SetTrigger("Reload");
+            currentAmmo = maxAmmo;
+            ammoEmpty = false;
+        }   
+    }
+
+    void Shoot()
+    {
         if (!ammoEmpty)
         {
-           
-
             if (Input.GetButton("Fire1"))
             {
-
-
 
                 animator.SetBool("IsFiring", true);
 
                 nextFire += Time.deltaTime;
 
-                if (nextFire >= fireRate && !ammoEmpty)
+                if (nextFire >= fireRate)
                 {
-                    Shoot();
-                    shotsFired++;
+                    ShootRayCast();
+                    currentAmmo--;
                     nextFire = 0;
                 }
 
-                //if (Time.time > nextFire)
-                //{
-                //    nextFire = Time.time + fireRate;
-                //    Shoot();
-                //}
-
-                if (shotsFired >= 30)
+                if (currentAmmo <= 0)
                 {
+                    animator.SetBool("IsFiring", false);
                     ammoEmpty = true;
                 }
-
-
 
             }
         }
 
-        
         if (Input.GetMouseButtonUp(0))
         {
             animator.SetBool("IsFiring", false);
         }
-        else if (Input.GetKeyDown(KeyCode.R))
-        {
-            animator.SetTrigger("Reload");
-        }
-
-       
     }
 
-    void Shoot()
+    void ShootRayCast()
     {
         RaycastHit hitInfo;
         if (Physics.Raycast(fpsCamera.transform.position, fpsCamera.transform.forward, out hitInfo, range))
@@ -86,6 +86,6 @@ public class ARGunControl : MonoBehaviour
             Debug.Log(hitInfo.transform.name);
         }
 
-        Debug.Log($"Shots fired: {shotsFired}");
+        //Debug.Log($"Ammo left: {currentAmmo}");
     }
 }
