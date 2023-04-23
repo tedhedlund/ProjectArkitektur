@@ -9,14 +9,17 @@ public class Player_Look : MonoBehaviour
     [SerializeField] private float clampLookDown;
     [SerializeField] private float clampLookUp;
 
-    private Quaternion newCameraRotation;
-    private Transform cameraTransfrom;
+    private Transform cameraTransform;
+    //[SerializeField] private float lookMultiplier;
+    //[SerializeField] private float lookSmooth;
+
+    private float newCameraRotation;   
     private float cameraRotationAmount;
 
 
     void Start()
     {
-        cameraTransfrom = GameObject.Find("Main Camera").transform;
+        cameraTransform = GameObject.Find("Main Camera").transform;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
@@ -39,15 +42,22 @@ public class Player_Look : MonoBehaviour
         // Multiply by sense and DT to get stable mouse speed not dependent on FPS.
         xAxisInput *= sensitivity * Time.deltaTime;
         yAxisInput *= sensitivity * Time.deltaTime;
+        //Quaternion xRot = Quaternion.AngleAxis(-yAxisInput * lookMultiplier, Vector3.right);
+        //Quaternion yRot = Quaternion.AngleAxis(xAxisInput * lookMultiplier, Vector3.up);
+        //Quaternion newRot = xRot * yRot;
+        //transform.localRotation = Quaternion.Slerp(transform.localRotation, newRot, lookSmooth * Time.deltaTime);
+
+        // Rotate player around Y-axis with input from the mouse X-axis.
+        transform.Rotate(Vector3.up * xAxisInput);
+        //transform.Rotate(Vector3.up * xAxisInput);
 
         // Gather rotation amount from the mouse Y-axis.
         // Clamp rotation
         // Then rotate camera around the X-axis with the amount gathered.
-        newCameraRotation.x -= yAxisInput;
-        newCameraRotation.x = Mathf.Clamp(newCameraRotation.x, clampLookDown, clampLookUp);
-        cameraTransfrom.localRotation = Quaternion.Euler(newCameraRotation.x, 0f, 0f);
+        newCameraRotation -= yAxisInput;
+        newCameraRotation = Mathf.Clamp(newCameraRotation, clampLookDown, clampLookUp);
+        cameraTransform.localRotation = Quaternion.Euler(newCameraRotation, 0f, 0f);
+        //cameraTransform
 
-        // Rotate player around Y-axis with input from the mouse X-axis.
-        this.transform.Rotate(Vector3.up * xAxisInput);
     }
 }
