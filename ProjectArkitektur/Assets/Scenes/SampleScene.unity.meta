@@ -1,5 +1,9 @@
 fileFormatVersion: 2
-guid: 89cfa1f4642674b47a920b6b2a43b934
+<<<<<<<< HEAD:ProjectArkitektur/Assets/Scenes/First_Map.unity.meta
+guid: 8257f233f4a36e44ebaf425923748c9c
+========
+guid: 1171500b83553b04c9038b621c73e3b7
+>>>>>>>> Simon_Armar:ProjectArkitektur/Assets/Scenes/SampleScene.unity.meta
 DefaultImporter:
   externalObjects: {}
   userData: 
