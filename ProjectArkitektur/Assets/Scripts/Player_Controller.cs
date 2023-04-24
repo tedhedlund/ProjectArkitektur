@@ -12,24 +12,25 @@ public class Player_Controller : MonoBehaviour
     [SerializeField] private float sprintCoolDownTime;
     [SerializeField] private float standUpSpeed;
     [SerializeField] private float crouchSpeed;
+    [SerializeField] private float groundStandOffset;
+    [SerializeField] private float groundCrouchOffset;
     [SerializeField] private float jumpSpeed;
     [SerializeField] private float jumpMultiplier;
-    [SerializeField] private float crouchYscale;
+    [SerializeField] private float crouchHeight;
     [SerializeField] private Transform sphereCheck;
 
     private CharacterController player;
     private LayerMask groundLayer;
 
-    private Vector3 standCheck;
     private Vector3 direction;
     private Vector3 inputHorizontal;
     private Vector3 inputVertical;
 
     private float verticalForce;
     private float sphereCheckRadius;
-    private float standingYscale;
-    private float standingHeight;
+    private float groundedOffset;
     private float gravity;
+    private float standHeight;
     public float sprintTimer;
     public float moveSpeed;
 
@@ -39,16 +40,15 @@ public class Player_Controller : MonoBehaviour
     private enum MoveStatus { standing, crouching, sprinting }
     private MoveStatus moveStatus = MoveStatus.standing;
 
-
     void Start()
     {
-        standCheck = GameObject.Find("StandCheck").transform.position;
         groundLayer = LayerMask.GetMask("Ground");
         player = GetComponent<CharacterController>();
         gravity = -9.82f;
         sphereCheckRadius = 0.4f;
-        standingYscale = transform.localScale.y;
-        standingHeight = transform.position.y;
+        groundCrouchOffset = -1.049f;
+        groundStandOffset = -1.699f;
+        standHeight = player.height;
     }
 
     
@@ -60,6 +60,8 @@ public class Player_Controller : MonoBehaviour
     private void CharacterMove()
     {
         // Set bool if player is/is not standing on the ground layer.
+        groundedOffset = moveStatus == MoveStatus.standing ? groundStandOffset : groundCrouchOffset;
+        sphereCheck.position = new Vector3(transform.position.x, transform.position.y + groundedOffset, transform.position.z);
         onGround = Physics.CheckSphere(sphereCheck.position, sphereCheckRadius, groundLayer);
 
         HandleMove();
@@ -78,13 +80,13 @@ public class Player_Controller : MonoBehaviour
 
     private void ToggleCrouch()
     {
-        if (moveStatus == MoveStatus.crouching && transform.localScale.y > crouchYscale)
+        if (moveStatus == MoveStatus.crouching && player.height > crouchHeight)
         {
-            transform.localScale -= new Vector3(0, crouchSpeed, 0);
+            player.height = Mathf.Lerp(player.height, crouchHeight, crouchSpeed);
         }
-        else if(moveStatus == MoveStatus.standing && transform.localScale.y < standingYscale)
+        else if(moveStatus == MoveStatus.standing && player.height < standHeight)
         {
-            transform.localScale += new Vector3(0, standUpSpeed, 0);
+            player.height = Mathf.Lerp(player.height, standHeight, standUpSpeed);
         }
     }
 
@@ -95,7 +97,7 @@ public class Player_Controller : MonoBehaviour
             RaycastHit standHit;
             if (Physics.Raycast(transform.position, Vector3.up, out standHit))
             {
-                if (standHit.distance > standingHeight + 0.1f)
+                if (standHit.distance > standHeight + 0.1f)
                 {
                     moveStatus = MoveStatus.standing;
                 }                                
