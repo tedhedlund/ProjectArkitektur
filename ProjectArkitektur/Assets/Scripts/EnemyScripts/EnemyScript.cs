@@ -9,7 +9,7 @@ public class EnemyScript : MonoBehaviour
     [SerializeField] NavMeshAgent agent;
     [SerializeField] GameObject player;
 
-    private ZombieState currentState;
+    public ZombieState currentState;
 
     [SerializeField] float originalSpeed = 4f;
     [SerializeField] float chaseSpeed = 8f;
@@ -17,7 +17,7 @@ public class EnemyScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        currentState = ZombieState.Walking;
+        currentState = ZombieState.Idle;
         agent.speed = originalSpeed;
     }
 
@@ -25,7 +25,7 @@ public class EnemyScript : MonoBehaviour
     void Update()
     {
 
-        if (Vector3.Distance(agent.transform.position, player.transform.position) >= 20)
+        if (Vector3.Distance(agent.transform.position, player.transform.position) >= 12)
         {
             currentState = ZombieState.Chasing;          
         }
@@ -36,6 +36,13 @@ public class EnemyScript : MonoBehaviour
 
         switch (currentState)
         {
+            case ZombieState.Idle:
+                {
+                    agent.speed = 0;
+                    Debug.Log("Idle");
+                    break;
+                }
+
             case ZombieState.Walking:
                 {
                     Debug.Log("Walking");
@@ -57,6 +64,7 @@ public class EnemyScript : MonoBehaviour
 
 public enum ZombieState
 {
+    Idle,
     Walking,
     Chasing
 }
