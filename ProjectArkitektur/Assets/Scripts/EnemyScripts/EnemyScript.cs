@@ -25,7 +25,7 @@ public class EnemyScript : MonoBehaviour
     void Update()
     {
 
-        if (Vector3.Distance(agent.transform.position, player.transform.position) >= 12)
+        if (Vector3.Distance(agent.transform.position, player.transform.position) >= 10)
         {
             currentState = ZombieState.Chasing;          
         }

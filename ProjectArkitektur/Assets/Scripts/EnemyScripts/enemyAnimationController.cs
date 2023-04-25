@@ -20,15 +20,17 @@ public class enemyAnimationController : MonoBehaviour
         if(enemyScript.currentState == ZombieState.Walking)
         {
             animator.SetBool("isWalking", true);
-        }       
-        
-        if(enemyScript.currentState == ZombieState.Chasing)
+            animator.SetBool("isRunning", false);
+        }             
+        else if(enemyScript.currentState == ZombieState.Chasing)
         {
+            animator.SetBool("isWalking", true);
             animator.SetBool("isRunning", true);
         }
-        else
+        else if (enemyScript.currentState == ZombieState.Idle)
         {
             animator.SetBool("isRunning", false);
+            animator.SetBool("isWalking", false);
         }
 
     }
