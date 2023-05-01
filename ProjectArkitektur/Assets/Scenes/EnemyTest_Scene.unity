@@ -4319,24 +4319,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8827517676220855516, guid: d87b0adccb8980842b3fa5411e33cc04, type: 3}
   m_PrefabInstance: {fileID: 1115178556}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1129951472 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8827517676220855517, guid: d87b0adccb8980842b3fa5411e33cc04, type: 3}
-  m_PrefabInstance: {fileID: 2000043161}
-  m_PrefabAsset: {fileID: 0}
---- !u!65 &1129951478
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1129951472}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 0.36962157, z: 1.4474297}
-  m_Center: {x: 0, y: 0.3034543, z: 0.7552083}
 --- !u!1 &1147393480
 GameObject:
   m_ObjectHideFlags: 0
@@ -7816,26 +7798,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1659711576}
     m_Modifications:
-    - target: {fileID: 8827517676220855488, guid: d87b0adccb8980842b3fa5411e33cc04, type: 3}
-      propertyPath: m_AutoBraking
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8827517676220855488, guid: d87b0adccb8980842b3fa5411e33cc04, type: 3}
-      propertyPath: m_Acceleration
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 8827517676220855488, guid: d87b0adccb8980842b3fa5411e33cc04, type: 3}
-      propertyPath: m_StoppingDistance
-      value: 0.33
-      objectReference: {fileID: 0}
     - target: {fileID: 8827517676220855495, guid: d87b0adccb8980842b3fa5411e33cc04, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 1861586291}
-    - target: {fileID: 8827517676220855495, guid: d87b0adccb8980842b3fa5411e33cc04, type: 3}
-      propertyPath: originalSpeed
-      value: 1.2
-      objectReference: {fileID: 0}
     - target: {fileID: 8827517676220855516, guid: d87b0adccb8980842b3fa5411e33cc04, type: 3}
       propertyPath: m_RootOrder
       value: 1

@@ -109,7 +109,7 @@ public class EnemyScript : MonoBehaviour
     {
         if(other.gameObject == player)
         {
-            currentState = ZombieState.Idle;
+            currentState = ZombieState.Walking;
         }
     }
 
