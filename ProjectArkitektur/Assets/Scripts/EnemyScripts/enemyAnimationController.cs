@@ -21,17 +21,32 @@ public class enemyAnimationController : MonoBehaviour
         {
             animator.SetBool("isWalking", true);
             animator.SetBool("isRunning", false);
+            animator.SetBool("isAttacking", false);
         }             
         else if(enemyScript.currentState == ZombieState.Chasing)
         {
             animator.SetBool("isWalking", true);
             animator.SetBool("isRunning", true);
+            animator.SetBool("isAttacking", false);
         }
         else if (enemyScript.currentState == ZombieState.Idle)
         {
             animator.SetBool("isRunning", false);
             animator.SetBool("isWalking", false);
+            animator.SetBool("isAttacking", false);
+        }
+        else if(enemyScript.currentState == ZombieState.Hitting)
+        {
+            animator.SetBool("isRunning", false);
+            animator.SetBool("isWalking", false);
+            animator.SetBool("isAttacking", true);
         }
 
     }
+
+    public void TakeDamage()
+    {
+        enemyScript.dmgPlayer = true;
+    }
+
 }
