@@ -9,6 +9,7 @@ public class GunController : MonoBehaviour
     public float range = 100f;
 
     public Camera fpsCamera;
+    public GameObject impactEffect;
 
     Animator animator;
 
@@ -59,10 +60,14 @@ public class GunController : MonoBehaviour
 
     void ShootRayCast()
     {
-        RaycastHit hitInfo;
-        if (Physics.Raycast(fpsCamera.transform.position, fpsCamera.transform.forward, out hitInfo, range))
+        RaycastHit hit;
+        if (Physics.Raycast(fpsCamera.transform.position, fpsCamera.transform.forward, out hit, range))
         {
-            Debug.Log(hitInfo.transform.name);
+            Debug.Log(hit.transform.name);
         }
+
+        //Hiteffect
+        GameObject impactGO = Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal));
+        Destroy(impactGO, 2f);
     }
 }
