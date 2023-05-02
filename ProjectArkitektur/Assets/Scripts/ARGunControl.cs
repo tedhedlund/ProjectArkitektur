@@ -89,6 +89,7 @@ public class ARGunControl : MonoBehaviour
             Debug.Log(hit.transform.name);
         }
 
+        //Hiteffect
         GameObject impactGO = Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal));
         Destroy(impactGO, 2f);
     }   
