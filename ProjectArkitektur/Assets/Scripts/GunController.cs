@@ -11,8 +11,8 @@ public class GunController : MonoBehaviour
     [SerializeField] private float fireRate = 0.06f;
     [SerializeField] private float recoilAmount;
     [SerializeField] private BulletHoles bulletHoles;
-    //[SerializeField] private Camera fpsCamera;
     [SerializeField] private Player_Look camera;
+    [SerializeField] private GameObject impactEffect;
     public enum CurrentGun { pistol, AR };
     public CurrentGun currentGun;
 
@@ -121,6 +121,10 @@ public class GunController : MonoBehaviour
             Debug.Log(hitInfo.transform.name);
             bulletHoles.bulletHoles[bulletCounter++ % (int)maxAmmo].transform.position = hitInfo.point - Camera.main.transform.forward * 0.01f /*targetDirection.normalized * 0.01f*/;
             bulletHoles.bulletHoles[bulletCounter % (int)maxAmmo].transform.rotation = Quaternion.LookRotation(hitInfo.normal);
+
+            //Hiteffect
+            GameObject impactGO = Instantiate(impactEffect, hitInfo.point, Quaternion.LookRotation(hitInfo.normal));
+            Destroy(impactGO, 2f);
         }
     }
 
