@@ -9,8 +9,10 @@ public class Player_Look : MonoBehaviour
     [SerializeField] private float clampLookDown;
     [SerializeField] private float clampLookUp;
 
-    private Transform cameraTransform;
-    private float newCameraRotation;   
+    public Transform cameraTransform;
+    public float newCameraXrotation;
+    public float camerYrecoil = 0;
+    
 
     void Start()
     {
@@ -22,7 +24,7 @@ public class Player_Look : MonoBehaviour
 
     void Update()
     {
-        PlayerLook();
+        PlayerLook(); 
     }
 
 
@@ -44,8 +46,8 @@ public class Player_Look : MonoBehaviour
         // Gather rotation amount from the mouse Y-axis.
         // Clamp rotation
         // Then rotate camera around the X-axis with the amount gathered.
-        newCameraRotation -= yAxisInput;
-        newCameraRotation = Mathf.Clamp(newCameraRotation, clampLookDown, clampLookUp);
-        cameraTransform.localRotation = Quaternion.Euler(newCameraRotation, 0f, 0f);
+        newCameraXrotation -= yAxisInput;
+        newCameraXrotation = Mathf.Clamp(newCameraXrotation, clampLookDown, clampLookUp);
+        cameraTransform.localRotation = Quaternion.Euler(newCameraXrotation, camerYrecoil, 0f);
     }
 }

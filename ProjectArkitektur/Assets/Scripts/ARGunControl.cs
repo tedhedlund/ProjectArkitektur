@@ -5,13 +5,13 @@ using UnityEngine;
 
 public class ARGunControl : MonoBehaviour
 {
-    Animator animator;
 
+    Animator animator;
     public float damage = 10f;
     public float range = 100f;
-
     public Camera fpsCamera;
-    public GameObject impactEffect;
+    public enum CurrentGun { pistol, AR };
+    public CurrentGun currentGun;
 
     bool ammoEmpty = false;
     int currentAmmo;
@@ -77,20 +77,16 @@ public class ARGunControl : MonoBehaviour
         {
             animator.SetBool("IsFiring", false);
         }
-
-        
     }
 
     void ShootRayCast()
     {
-        RaycastHit hit;
-        if (Physics.Raycast(fpsCamera.transform.position, fpsCamera.transform.forward, out hit, range))
+        RaycastHit hitInfo;
+        if (Physics.Raycast(fpsCamera.transform.position, fpsCamera.transform.forward, out hitInfo, range))
         {
-            Debug.Log(hit.transform.name);
+            Debug.Log(hitInfo.transform.name);
         }
 
-        //Hiteffect
-        GameObject impactGO = Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal));
-        Destroy(impactGO, 2f);
-    }   
+        //Debug.Log($"Ammo left: {currentAmmo}");
+    }
 }
