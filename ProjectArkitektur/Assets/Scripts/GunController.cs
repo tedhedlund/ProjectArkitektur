@@ -6,6 +6,7 @@ public class GunController : MonoBehaviour
 {
     [Header("Gun Settings")]
     [SerializeField] private int maxAmmo = 30;
+    [SerializeField] private float reloadTime;
     [SerializeField] private float damage = 10f;
     [SerializeField] private float range = 100f;
     [SerializeField] private float fireRate = 0.06f;
@@ -13,8 +14,17 @@ public class GunController : MonoBehaviour
     [SerializeField] private float adsRecoil;
     [SerializeField] private float adsInSpeed;
     [SerializeField] private float adsOutSpeed;
+
+    [Header("Weapon animation Settings")]
+    [SerializeField] private float idleAdsBob = 0.3f;
+    [SerializeField] private float idleBob = 0.4f;
+    [SerializeField] private float walkBob = 1.3f;    
+    [SerializeField] private float sprintBobSpeed = 2;
+    [SerializeField] private float reloadSpeed;
+
+    [Header("Script Settings")]
     [SerializeField] private BulletHoles bulletHoles;
-    [SerializeField] private Player_Look camera;
+    [SerializeField] private Player_Look fpsCamera;
     [SerializeField] private GameObject impactEffect;
     [SerializeField] private Player_Controller player;
     public enum CurrentGun { pistol, AR };
@@ -31,10 +41,13 @@ public class GunController : MonoBehaviour
 
     private bool ammoEmpty = false;
     private bool firing = false;
+    private bool reloading = false;
 
     private float yRecoil;
-    private float recoilTimer;
+    private float reloadTimer;
     private float nextFire;
+    private float defaultAnimSpeed = 1.0f;
+    private float debugBobSpeed;
 
     private int currentAmmo;
     private int bulletCounter;
@@ -53,24 +66,42 @@ public class GunController : MonoBehaviour
     void Update()
     {
         HandleADS();
-        Shoot();
+        HandleWeaponBob();
         Reload();
+        Shoot();
     }
 
     void Reload()
     {
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R) && !reloading)
         {
             animator.SetTrigger("Reload");
             currentAmmo = maxAmmo;
             ammoEmpty = false;
             player.ads = false;
+            reloading = true;
         }
+
+        if (reloading)
+        {
+            reloadTimer += Time.deltaTime;
+            if (reloadTimer >= reloadTime)
+            {
+                reloading = false;
+                reloadTimer = 0;
+            }
+        }
+        //Check if reload animation has finished playing
+        //if (animator.GetCurrentAnimatorStateInfo(0).IsName("Reload") && 
+        //    animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+        //{
+        //    reloading = false;
+        //}
     }
 
     void Shoot()
     {
-        if (!ammoEmpty)
+        if (!ammoEmpty && !reloading)
         {
             if (currentGun == CurrentGun.pistol)
             {
@@ -87,7 +118,6 @@ public class GunController : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            firing = true;
             animator.SetTrigger("Shoot");
             ShootRayCast();
             CameraRecoil();
@@ -96,7 +126,6 @@ public class GunController : MonoBehaviour
         else if (currentAmmo <= 0)
         {
             ammoEmpty = true;
-            firing = false;
         }
       
     }
@@ -105,7 +134,6 @@ public class GunController : MonoBehaviour
     {
         if (Input.GetButton("Fire1"))
         {
-            firing = true;
             animator.SetBool("IsFiring", true);
 
             nextFire += Time.deltaTime;
@@ -128,32 +156,64 @@ public class GunController : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             animator.SetBool("IsFiring", false);
-            firing = false;
         }
     }
 
     private void HandleADS()
     {
-        if (/*transform.localPosition != adsPos &&*/ player.ads)
+        if (player.ads)
         {
-            //transform.localPosition = Vector3.Lerp(transform.localPosition, adsPos, adsSpeed);
             transform.parent.localPosition = Vector3.Lerp(transform.parent.localPosition, adsPos, adsInSpeed);
-            //transform.parent.localRotation = adsRot;
-            //transform.localRotation = adsRot;
         }
-        else if(/*transform.parent.localPosition != hipPos &&*/ !player.ads)
+        else if(!player.ads)
         {
             transform.parent.localPosition = Vector3.Lerp(transform.parent.localPosition, hipPos, adsOutSpeed);
-            //transform.parent.localRotation = hipRot;
-            //transform.localRotation = hipTransform.localRotation;
         }
+    }
+
+    private void HandleWeaponBob()
+    {
+
+        firing = animator.GetCurrentAnimatorStateInfo(0).IsName("Shoot");
+
+
+        if (!firing && !reloading)
+        {
+            if (player.moveStatus == Player_Controller.MoveStatus.idle)
+            {
+                if (player.ads)
+                {
+                    animator.speed = idleAdsBob;
+                }
+                else animator.speed = idleBob;
+            }
+            else if (player.moveStatus == Player_Controller.MoveStatus.walking)
+            {
+                animator.speed = walkBob;
+            }
+            else if (player.moveStatus == Player_Controller.MoveStatus.sprinting)
+            {
+                animator.speed = sprintBobSpeed;
+            } 
+        }
+        else if(firing)
+        {
+            animator.speed = defaultAnimSpeed;
+        }
+        else
+        {
+            animator.speed = reloadSpeed;
+        }
+
+     
+        debugBobSpeed = animator.speed;
     }
 
 
     void ShootRayCast()
     {
         RaycastHit hitInfo;
-        if (Physics.Raycast(camera.cameraTransform.position, camera.cameraTransform.forward, out hitInfo, range, ~ignoreRaycast))
+        if (Physics.Raycast(fpsCamera.cameraTransform.position, fpsCamera.cameraTransform.forward, out hitInfo, range, ~ignoreRaycast))
         {
             Debug.Log(hitInfo.transform.name);
             bulletHoles.bulletHoles[bulletCounter++ % (int)maxAmmo].transform.position = hitInfo.point - Camera.main.transform.forward * 0.01f /*targetDirection.normalized * 0.01f*/;
@@ -165,6 +225,7 @@ public class GunController : MonoBehaviour
         }
     }
 
+
     void CameraRecoil()
     {
         if (firing)
@@ -172,25 +233,27 @@ public class GunController : MonoBehaviour
             // Rotate camera up when shooting
             if (player.ads)
             {
-                camera.newCameraXrotation -= adsRecoil;
+                fpsCamera.newCameraXrotation -= adsRecoil;
             }
             else
             {
-                camera.newCameraXrotation -= hipfireRecoil;
+                fpsCamera.newCameraXrotation -= hipfireRecoil;
 
                 if (currentGun == CurrentGun.AR)
                 {
                     // Rotate camera sideways when shooting with AR
-                    camera.camerYrecoil = Random.value - 0.5f;
-                }           
+                   
+                }   
+                
             }
+            fpsCamera.camerYrecoil = Random.value - 0.5f;
         }
     }
+
 
     private void OnEnable()
     {
         player.ads = false;
-        transform.parent.localPosition = hipPos;
-     
+        transform.parent.localPosition = hipPos;   
     }
 }

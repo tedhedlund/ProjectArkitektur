@@ -763,6 +763,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxAmmo: 30
+  reloadTime: 0
   damage: 10
   range: 500
   fireRate: 0.06
@@ -770,8 +771,13 @@ MonoBehaviour:
   adsRecoil: 0
   adsInSpeed: 0
   adsOutSpeed: 0
+  idleAdsBob: 0.3
+  idleBob: 0.4
+  walkBob: 1.3
+  sprintBobSpeed: 0
+  reloadSpeed: 0
   bulletHoles: {fileID: 1874677298}
-  camera: {fileID: 5601261611521481810}
+  fpsCamera: {fileID: 0}
   impactEffect: {fileID: 0}
   player: {fileID: 0}
   currentGun: 1
@@ -13022,20 +13028,60 @@ PrefabInstance:
       value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 545897549780785556, guid: 168ddcfa7e65f5446bbb1c757c2d05dc, type: 3}
+      propertyPath: fpsCamera
+      value: 
+      objectReference: {fileID: 1935261920}
+    - target: {fileID: 545897549780785556, guid: 168ddcfa7e65f5446bbb1c757c2d05dc, type: 3}
       propertyPath: adsInSpeed
       value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 545897549780785556, guid: 168ddcfa7e65f5446bbb1c757c2d05dc, type: 3}
+      propertyPath: reloadTime
+      value: 1.4
       objectReference: {fileID: 0}
     - target: {fileID: 545897549780785556, guid: 168ddcfa7e65f5446bbb1c757c2d05dc, type: 3}
       propertyPath: adsOutSpeed
       value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 545897549780785556, guid: 168ddcfa7e65f5446bbb1c757c2d05dc, type: 3}
+      propertyPath: reloadSpeed
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 545897549780785556, guid: 168ddcfa7e65f5446bbb1c757c2d05dc, type: 3}
+      propertyPath: idleBobSpeed
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 545897549780785556, guid: 168ddcfa7e65f5446bbb1c757c2d05dc, type: 3}
       propertyPath: recoilAmount
       value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 545897549780785556, guid: 168ddcfa7e65f5446bbb1c757c2d05dc, type: 3}
+      propertyPath: walkBobSpeed
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 545897549780785556, guid: 168ddcfa7e65f5446bbb1c757c2d05dc, type: 3}
       propertyPath: hipfireRecoil
       value: 0.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 545897549780785556, guid: 168ddcfa7e65f5446bbb1c757c2d05dc, type: 3}
+      propertyPath: crouchBobSpeed
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 545897549780785556, guid: 168ddcfa7e65f5446bbb1c757c2d05dc, type: 3}
+      propertyPath: sprintBobSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 545897549780785556, guid: 168ddcfa7e65f5446bbb1c757c2d05dc, type: 3}
+      propertyPath: adsIdleBobSpeed
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 545897549780785556, guid: 168ddcfa7e65f5446bbb1c757c2d05dc, type: 3}
+      propertyPath: adsWalkBobSpeed
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 545897549780785556, guid: 168ddcfa7e65f5446bbb1c757c2d05dc, type: 3}
+      propertyPath: adsCrouchBobSpeed
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 570462864060237900, guid: 168ddcfa7e65f5446bbb1c757c2d05dc, type: 3}
       propertyPath: m_Layer
@@ -13357,6 +13403,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player3.0
       objectReference: {fileID: 0}
+    - target: {fileID: 5409139800590486642, guid: 168ddcfa7e65f5446bbb1c757c2d05dc, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5413480499273266883, guid: 168ddcfa7e65f5446bbb1c757c2d05dc, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -13558,12 +13608,24 @@ PrefabInstance:
       value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 8228537633692475503, guid: 168ddcfa7e65f5446bbb1c757c2d05dc, type: 3}
+      propertyPath: fpsCamera
+      value: 
+      objectReference: {fileID: 1935261920}
+    - target: {fileID: 8228537633692475503, guid: 168ddcfa7e65f5446bbb1c757c2d05dc, type: 3}
       propertyPath: adsInSpeed
       value: 0.04
       objectReference: {fileID: 0}
     - target: {fileID: 8228537633692475503, guid: 168ddcfa7e65f5446bbb1c757c2d05dc, type: 3}
+      propertyPath: reloadTime
+      value: 1.95
+      objectReference: {fileID: 0}
+    - target: {fileID: 8228537633692475503, guid: 168ddcfa7e65f5446bbb1c757c2d05dc, type: 3}
       propertyPath: adsOutSpeed
       value: 0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 8228537633692475503, guid: 168ddcfa7e65f5446bbb1c757c2d05dc, type: 3}
+      propertyPath: reloadSpeed
+      value: 1.3
       objectReference: {fileID: 0}
     - target: {fileID: 8228537633692475503, guid: 168ddcfa7e65f5446bbb1c757c2d05dc, type: 3}
       propertyPath: recoilAmount
@@ -13641,7 +13703,8 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1340172965928028862, guid: 168ddcfa7e65f5446bbb1c757c2d05dc, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 168ddcfa7e65f5446bbb1c757c2d05dc, type: 3}
 --- !u!1 &865262172
 GameObject:
@@ -25885,6 +25948,63 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1749436900}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &1767957719
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1441862284232341478, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
+      propertyPath: m_RootOrder
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1441862284232341478, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1441862284232341478, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1441862284232341478, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1441862284232341478, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1441862284232341478, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1441862284232341478, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1441862284232341478, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1441862284232341478, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1441862284232341478, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1441862284232341478, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1758450133057847994, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
+      propertyPath: m_Name
+      value: Player4.0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
 --- !u!114 &1813312909
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25898,6 +26018,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxAmmo: 30
+  reloadTime: 0
   damage: 10
   range: 100
   fireRate: 0.06
@@ -25905,8 +26026,13 @@ MonoBehaviour:
   adsRecoil: 0
   adsInSpeed: 0
   adsOutSpeed: 0
+  idleAdsBob: 0.3
+  idleBob: 0.4
+  walkBob: 1.3
+  sprintBobSpeed: 0
+  reloadSpeed: 0
   bulletHoles: {fileID: 1286021200}
-  camera: {fileID: 871328695528888378}
+  fpsCamera: {fileID: 0}
   impactEffect: {fileID: 1324235316}
   player: {fileID: 0}
   currentGun: 1
@@ -26860,6 +26986,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxAmmo: 15
+  reloadTime: 0
   damage: 10
   range: 100
   fireRate: 0.06
@@ -26867,8 +26994,13 @@ MonoBehaviour:
   adsRecoil: 0
   adsInSpeed: 0
   adsOutSpeed: 0
+  idleAdsBob: 0.3
+  idleBob: 0.4
+  walkBob: 1.3
+  sprintBobSpeed: 0
+  reloadSpeed: 0
   bulletHoles: {fileID: 1874677298}
-  camera: {fileID: 5601261611521481810}
+  fpsCamera: {fileID: 0}
   impactEffect: {fileID: 0}
   player: {fileID: 0}
   currentGun: 0
@@ -26992,6 +27124,17 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1925211069}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1935261920 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1732353801727691627, guid: 168ddcfa7e65f5446bbb1c757c2d05dc, type: 3}
+  m_PrefabInstance: {fileID: 836858277}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6357ae19d14436458ced2f7c1588fe6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1948969750
 GameObject:
   m_ObjectHideFlags: 0
@@ -28255,6 +28398,9 @@ MonoBehaviour:
   sprintTimer: 0
   moveSpeed: 0
   ads: 0
+  sprinting: 0
+  crouchStatus: 0
+  moveStatus: 0
 --- !u!23 &871328695528888372
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -30217,6 +30363,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxAmmo: 30
+  reloadTime: 0
   damage: 10
   range: 100
   fireRate: 0.06
@@ -30224,8 +30371,13 @@ MonoBehaviour:
   adsRecoil: 0
   adsInSpeed: 0
   adsOutSpeed: 0
+  idleAdsBob: 0.3
+  idleBob: 0.4
+  walkBob: 1.3
+  sprintBobSpeed: 0
+  reloadSpeed: 0
   bulletHoles: {fileID: 1286021200}
-  camera: {fileID: 871328695528888378}
+  fpsCamera: {fileID: 0}
   impactEffect: {fileID: 1324235316}
   player: {fileID: 0}
   currentGun: 0
@@ -32019,17 +32171,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &5601261611521481810 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5601261611581033399, guid: 89cfa1f4642674b47a920b6b2a43b934, type: 3}
-  m_PrefabInstance: {fileID: 76863461}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6357ae19d14436458ced2f7c1588fe6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &5601261612310359680 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5601261612236192101, guid: 89cfa1f4642674b47a920b6b2a43b934, type: 3}
