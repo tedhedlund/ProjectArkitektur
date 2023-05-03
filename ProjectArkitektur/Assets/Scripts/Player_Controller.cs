@@ -36,6 +36,7 @@ public class Player_Controller : MonoBehaviour
 
     private bool onGround;
     private bool canSprint = true;
+    public bool ads = false;
 
     private enum MoveStatus { standing, crouching, sprinting }
     private MoveStatus moveStatus = MoveStatus.standing;
@@ -64,6 +65,7 @@ public class Player_Controller : MonoBehaviour
         sphereCheck.position = new Vector3(transform.position.x, transform.position.y + groundedOffset, transform.position.z);
         onGround = Physics.CheckSphere(sphereCheck.position, sphereCheckRadius, groundLayer);
 
+        HandleADS();
         HandleMove();
         HandleCrouch();
         HandleJump();
@@ -76,6 +78,14 @@ public class Player_Controller : MonoBehaviour
             ValidateStand();
         }
         ToggleCrouch();
+    }
+
+    private void HandleADS()
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+            ads = !ads;
+        }
     }
 
     private void ToggleCrouch()
@@ -151,12 +161,13 @@ public class Player_Controller : MonoBehaviour
         {
             moveSpeed = sprintSpeed;
             sprintTimer += Time.deltaTime;
+            ads = false;
             if (sprintTimer >= maxSprintTime)
             {
                 canSprint = false;
             }
         }
-        else if (moveStatus == MoveStatus.crouching)
+        else if (moveStatus == MoveStatus.crouching || ads)
         {
             moveSpeed = crouchWalkSpeed;
             canSprint = false;

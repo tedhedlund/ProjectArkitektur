@@ -9,14 +9,26 @@ public class GunController : MonoBehaviour
     [SerializeField] private float damage = 10f;
     [SerializeField] private float range = 100f;
     [SerializeField] private float fireRate = 0.06f;
-    [SerializeField] private float recoilAmount;
+    [SerializeField] private float hipfireRecoil;
+    [SerializeField] private float adsRecoil;
+    [SerializeField] private float adsInSpeed;
+    [SerializeField] private float adsOutSpeed;
     [SerializeField] private BulletHoles bulletHoles;
     [SerializeField] private Player_Look camera;
     [SerializeField] private GameObject impactEffect;
+    [SerializeField] private Player_Controller player;
     public enum CurrentGun { pistol, AR };
     public CurrentGun currentGun;
 
+    
     private Animator animator;
+    private LayerMask ignoreRaycast;
+
+    public Vector3 adsPos;
+    private Vector3 hipPos = new Vector3(0.1359997f, -0.1169999f, 0.4020013f);
+    public Quaternion adsRot;
+    private Quaternion hipRot;
+
     private bool ammoEmpty = false;
     private bool firing = false;
 
@@ -31,12 +43,16 @@ public class GunController : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
+        ignoreRaycast = LayerMask.GetMask("IgnoreRaycast");
+        hipPos = transform.parent.localPosition;
+        hipRot = transform.parent.localRotation;
         currentAmmo = maxAmmo;
     }
 
     // Update is called once per frame
     void Update()
     {
+        HandleADS();
         Shoot();
         Reload();
     }
@@ -48,6 +64,7 @@ public class GunController : MonoBehaviour
             animator.SetTrigger("Reload");
             currentAmmo = maxAmmo;
             ammoEmpty = false;
+            player.ads = false;
         }
     }
 
@@ -73,6 +90,7 @@ public class GunController : MonoBehaviour
             firing = true;
             animator.SetTrigger("Shoot");
             ShootRayCast();
+            CameraRecoil();
             currentAmmo--;
         }
         else if (currentAmmo <= 0)
@@ -113,10 +131,29 @@ public class GunController : MonoBehaviour
             firing = false;
         }
     }
+
+    private void HandleADS()
+    {
+        if (/*transform.localPosition != adsPos &&*/ player.ads)
+        {
+            //transform.localPosition = Vector3.Lerp(transform.localPosition, adsPos, adsSpeed);
+            transform.parent.localPosition = Vector3.Lerp(transform.parent.localPosition, adsPos, adsInSpeed);
+            //transform.parent.localRotation = adsRot;
+            //transform.localRotation = adsRot;
+        }
+        else if(/*transform.parent.localPosition != hipPos &&*/ !player.ads)
+        {
+            transform.parent.localPosition = Vector3.Lerp(transform.parent.localPosition, hipPos, adsOutSpeed);
+            //transform.parent.localRotation = hipRot;
+            //transform.localRotation = hipTransform.localRotation;
+        }
+    }
+
+
     void ShootRayCast()
     {
         RaycastHit hitInfo;
-        if (Physics.Raycast(camera.cameraTransform.position, camera.cameraTransform.forward, out hitInfo, range))
+        if (Physics.Raycast(camera.cameraTransform.position, camera.cameraTransform.forward, out hitInfo, range, ~ignoreRaycast))
         {
             Debug.Log(hitInfo.transform.name);
             bulletHoles.bulletHoles[bulletCounter++ % (int)maxAmmo].transform.position = hitInfo.point - Camera.main.transform.forward * 0.01f /*targetDirection.normalized * 0.01f*/;
@@ -131,9 +168,29 @@ public class GunController : MonoBehaviour
     void CameraRecoil()
     {
         if (firing)
-        {
-            camera.newCameraXrotation -= recoilAmount;
-            camera.camerYrecoil = Random.value - 0.5f;
+        {         
+            // Rotate camera up when shooting
+            if (player.ads)
+            {
+                camera.newCameraXrotation -= adsRecoil;
+            }
+            else
+            {
+                camera.newCameraXrotation -= hipfireRecoil;
+
+                if (currentGun == CurrentGun.AR)
+                {
+                    // Rotate camera sideways when shooting with AR
+                    camera.camerYrecoil = Random.value - 0.5f;
+                }           
+            }
         }
+    }
+
+    private void OnEnable()
+    {
+        player.ads = false;
+        transform.parent.localPosition = hipPos;
+     
     }
 }
