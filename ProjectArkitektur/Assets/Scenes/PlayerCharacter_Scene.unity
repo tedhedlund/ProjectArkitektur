@@ -13260,6 +13260,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 47397556702346148, guid: 168ddcfa7e65f5446bbb1c757c2d05dc, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.10751302
+      objectReference: {fileID: 0}
+    - target: {fileID: 47397556702346148, guid: 168ddcfa7e65f5446bbb1c757c2d05dc, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.04063002
+      objectReference: {fileID: 0}
+    - target: {fileID: 47397556702346148, guid: 168ddcfa7e65f5446bbb1c757c2d05dc, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.01381148
+      objectReference: {fileID: 0}
     - target: {fileID: 545897549780785556, guid: 168ddcfa7e65f5446bbb1c757c2d05dc, type: 3}
       propertyPath: ammoPerMag
       value: 15
