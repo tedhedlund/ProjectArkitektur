@@ -47,7 +47,7 @@ public class Player_Controller : MonoBehaviour
     public enum CrouchStatus { standing, crouching }
     public CrouchStatus crouchStatus = CrouchStatus.standing;
 
-    public enum MoveStatus { idle, walking, sprinting }
+    public enum MoveStatus { idle, walking, sprinting, leftStrafe, rightStrafe }
     public MoveStatus moveStatus = MoveStatus.idle;
 
 
@@ -167,7 +167,7 @@ public class Player_Controller : MonoBehaviour
 
         // Start sprinting.
         // If player holds shift, sprint until exhausted by maxSprintTime.
-        if (Input.GetKey(KeyCode.LeftShift) && canSprint)
+        if (Input.GetKey(KeyCode.LeftShift) && canSprint && moveStatus != MoveStatus.idle)
         {
             moveSpeed = sprintSpeed;
             sprintTimer += Time.deltaTime;
@@ -199,6 +199,14 @@ public class Player_Controller : MonoBehaviour
             if (inputHorizontal == Vector3.zero && inputVertical == Vector3.zero)
             {
                 moveStatus = MoveStatus.idle;
+            }
+            else if(inputHorizontal.x > 0 && inputVertical == Vector3.zero)
+            {
+                moveStatus = MoveStatus.rightStrafe;
+            }
+            else if(inputHorizontal.x < 0 && inputVertical == Vector3.zero)
+            {
+                moveStatus = MoveStatus.leftStrafe;
             }
             else moveStatus = MoveStatus.walking;
 

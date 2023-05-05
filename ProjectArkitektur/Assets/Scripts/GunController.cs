@@ -14,6 +14,7 @@ public class GunController : MonoBehaviour
     [SerializeField] private float adsRecoil;
     [SerializeField] private float adsInSpeed;
     [SerializeField] private float adsOutSpeed;
+    [SerializeField] private float goTosprintPosSpeed;
 
     [Header("Weapon animation Settings")]
     [SerializeField] private float idleAdsBob = 0.3f;
@@ -35,8 +36,11 @@ public class GunController : MonoBehaviour
     private LayerMask ignoreRaycast;
 
     public Vector3 adsPos;
-    private Vector3 hipPos = new Vector3(0.1359997f, -0.1169999f, 0.4020013f);
-    public Quaternion adsRot;
+
+    public Vector3 hipPos; //= new Vector3(0.1359997f, -0.09f, 0.4020013f);
+    public Vector3 sprintPos;// = new Vector3(0.02f, -0.08f, 0.31f);
+    public Quaternion sprintRot; //= Quaternion.Euler(12.88f, 354.68f, 25.5f);
+    public Quaternion adsRot; //= Quaternion.Euler(359.6f, 0f, 0f);
     private Quaternion hipRot;
 
     private bool ammoEmpty = false;
@@ -60,6 +64,7 @@ public class GunController : MonoBehaviour
         hipPos = transform.parent.localPosition;
         hipRot = transform.parent.localRotation;
         currentAmmo = maxAmmo;
+        
     }
 
     // Update is called once per frame
@@ -162,13 +167,24 @@ public class GunController : MonoBehaviour
     private void HandleADS()
     {
         if (player.ads)
-        {
+        {        
             transform.parent.localPosition = Vector3.Lerp(transform.parent.localPosition, adsPos, adsInSpeed);
+            transform.parent.localRotation = Quaternion.Lerp(transform.parent.localRotation,adsRot, goTosprintPosSpeed);
         }
-        else if(!player.ads)
+        else if(!player.ads && player.moveStatus != Player_Controller.MoveStatus.sprinting)
         {
             transform.parent.localPosition = Vector3.Lerp(transform.parent.localPosition, hipPos, adsOutSpeed);
+            transform.parent.localRotation = Quaternion.Lerp(transform.parent.localRotation, hipRot, goTosprintPosSpeed);
         }
+        else if(player.moveStatus == Player_Controller.MoveStatus.sprinting && player.moveStatus != Player_Controller.MoveStatus.idle)
+        {
+            transform.parent.localPosition = Vector3.Lerp(transform.parent.localPosition, sprintPos, goTosprintPosSpeed);
+            transform.parent.localRotation = Quaternion.Lerp(transform.parent.localRotation, sprintRot, goTosprintPosSpeed);
+        }
+        //else if(!player.ads && player.moveStatus == Player_Controller.MoveStatus.strafing)
+        //{
+
+        //}
     }
 
     private void HandleWeaponBob()
