@@ -78,7 +78,7 @@ public class GunController : MonoBehaviour
 
     void Reload()
     {
-        if (Input.GetKeyDown(KeyCode.R) && !reloading)
+        if (Input.GetKeyDown(KeyCode.R) && !reloading && !firing)
         {
             animator.SetTrigger("Reload");
             currentAmmo = maxAmmo;
@@ -229,41 +229,67 @@ public class GunController : MonoBehaviour
     void ShootRayCast()
     {
         RaycastHit hitInfo;
-        if (Physics.Raycast(fpsCamera.cameraTransform.position, fpsCamera.cameraTransform.forward, out hitInfo, range, ~ignoreRaycast))
+        Vector3 startPos = fpsCamera.cameraTransform.position;
+        if (Physics.Raycast(startPos, fpsCamera.cameraTransform.forward, out hitInfo, range, ~ignoreRaycast))
         {
-            Debug.Log(hitInfo.transform.name);
-            bulletHoles.bulletHoles[bulletCounter++ % (int)maxAmmo].transform.position = hitInfo.point - Camera.main.transform.forward * 0.01f /*targetDirection.normalized * 0.01f*/;
-            bulletHoles.bulletHoles[bulletCounter % (int)maxAmmo].transform.rotation = Quaternion.LookRotation(hitInfo.normal);
-
-            //Hiteffect
-            GameObject impactGO = Instantiate(impactEffect, hitInfo.point, Quaternion.LookRotation(hitInfo.normal));
-            Destroy(impactGO, 2f);
+            // Add extra hipfire recoil if player is not ADS
+            if (!player.ads)
+            {
+                Vector3 newHitPos = new Vector3(hitInfo.point.x - Random.Range(-(hipfireRecoil * 1.5f), hipfireRecoil * 1.5f), hitInfo.point.y + Random.Range(0.0f, 0.7f), hitInfo.point.z);
+                Vector3 newFireDir = newHitPos - startPos;
+                if (Physics.Raycast(startPos, newFireDir, out hitInfo, range, ~ignoreRaycast))
+                {
+                    HandleBulletHit(hitInfo);
+                }
+            }
+            else
+            {
+                HandleBulletHit(hitInfo);
+            }
         }
+    }
+
+    void HandleBulletHit(RaycastHit hitInfo)
+    {
+        Debug.Log(hitInfo.transform.name);
+        bulletHoles.bulletHoles[bulletCounter++ % (int)maxAmmo].transform.position = hitInfo.point - Camera.main.transform.forward * 0.01f /*targetDirection.normalized * 0.01f*/;
+        bulletHoles.bulletHoles[bulletCounter % (int)maxAmmo].transform.rotation = Quaternion.LookRotation(hitInfo.normal);
+
+        //Hiteffect
+        GameObject impactGO = Instantiate(impactEffect, hitInfo.point, Quaternion.LookRotation(hitInfo.normal));
+        Destroy(impactGO, 2f);
     }
 
 
     void CameraRecoil()
     {
-        if (firing)
-        {         
-            // Rotate camera up when shooting
-            if (player.ads)
-            {
-                fpsCamera.newCameraXrotation -= adsRecoil;
-            }
-            else
-            {
-                fpsCamera.newCameraXrotation -= hipfireRecoil;
+        //if (firing)
+        //{         
+        // Rotate camera up when shooting
+        if (player.ads)
+        {
+            fpsCamera.newCameraXrotation -= adsRecoil;
 
-                if (currentGun == CurrentGun.AR)
-                {
-                    // Rotate camera sideways when shooting with AR
-                   
-                }   
-                
+            if (currentGun == CurrentGun.AR)
+            {
+                // Rotate camera sideways when shooting with AR
+                //fpsCamera.camerYrecoil = Random.value - 0.5f;
+                fpsCamera.camerYrecoil = Random.Range(-0.3f, 0.3f);
             }
-            fpsCamera.camerYrecoil = Random.value - 0.5f;
         }
+        else
+        {
+            fpsCamera.newCameraXrotation -= hipfireRecoil;
+
+            if (currentGun == CurrentGun.AR)
+            {
+                // Rotate camera sideways when shooting with AR
+                //fpsCamera.camerYrecoil = Random.value - 0.5f;
+                fpsCamera.camerYrecoil = Random.Range(-0.5f, 0.5f);
+            }   
+                
+        }
+        //}
     }
 
 

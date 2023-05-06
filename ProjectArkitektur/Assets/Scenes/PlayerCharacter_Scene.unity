@@ -12416,8 +12416,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 703575368}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 19.38, y: 2.8, z: -34.78}
-  m_LocalScale: {x: 1.5740988, y: 7.3663526, z: 1.6936122}
+  m_LocalPosition: {x: 28.28, y: 2.8, z: -29.3}
+  m_LocalScale: {x: 9.699751, y: 7.3663526, z: 1.6936122}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1017453720}
@@ -26040,6 +26040,14 @@ PrefabInstance:
       value: 0.003490592
       objectReference: {fileID: 0}
     - target: {fileID: 2398159691920518823, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
+      propertyPath: fireRate
+      value: 0.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 2398159691920518823, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
+      propertyPath: adsRecoil
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2398159691920518823, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
       propertyPath: adsInSpeed
       value: 0.06
       objectReference: {fileID: 0}
@@ -26066,6 +26074,10 @@ PrefabInstance:
     - target: {fileID: 2398159691920518823, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
       propertyPath: sprintRot.z
       value: -0.18324792
+      objectReference: {fileID: 0}
+    - target: {fileID: 2398159691920518823, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
+      propertyPath: hipfireRecoil
+      value: 0.35
       objectReference: {fileID: 0}
     - target: {fileID: 2398159691920518823, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
       propertyPath: goTosprintPosSpeed
@@ -26128,6 +26140,10 @@ PrefabInstance:
       value: -0.09
       objectReference: {fileID: 0}
     - target: {fileID: 6117348466093578076, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
+      propertyPath: adsRecoil
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6117348466093578076, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
       propertyPath: sprintPos.x
       value: 0.02
       objectReference: {fileID: 0}
@@ -26154,6 +26170,10 @@ PrefabInstance:
     - target: {fileID: 6117348466093578076, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
       propertyPath: sprintRot.z
       value: -0.2241455
+      objectReference: {fileID: 0}
+    - target: {fileID: 6117348466093578076, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
+      propertyPath: hipfireRecoil
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 6117348466093578076, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
       propertyPath: goTosprintPosSpeed
