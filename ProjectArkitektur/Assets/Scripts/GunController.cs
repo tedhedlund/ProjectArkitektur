@@ -28,7 +28,7 @@ public class GunController : MonoBehaviour
     private float nextFire;
 
     private int currentAmmoInMag;
-    private int currentTotalAmmo;
+    public int currentTotalAmmo;
     private int bulletCounter;
 
     // Start is called before the first frame update
