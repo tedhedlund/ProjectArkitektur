@@ -26121,6 +26121,10 @@ PrefabInstance:
       value: Player4.0
       objectReference: {fileID: 0}
     - target: {fileID: 2398159691920518823, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
+      propertyPath: test
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 2398159691920518823, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
       propertyPath: adsPos.y
       value: -0.063
       objectReference: {fileID: 0}
@@ -26142,15 +26146,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2398159691920518823, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
       propertyPath: adsRecoil
-      value: 0.5
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 2398159691920518823, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
       propertyPath: adsInSpeed
-      value: 0.06
+      value: 0.095
+      objectReference: {fileID: 0}
+    - target: {fileID: 2398159691920518823, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
+      propertyPath: adsXrecoil
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2398159691920518823, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
+      propertyPath: adsYrecoil
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 2398159691920518823, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
       propertyPath: adsOutSpeed
-      value: 0.03
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 2398159691920518823, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
       propertyPath: sprintPos.y
@@ -26177,6 +26189,14 @@ PrefabInstance:
       value: 0.35
       objectReference: {fileID: 0}
     - target: {fileID: 2398159691920518823, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
+      propertyPath: hipfireXrecoil
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 2398159691920518823, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
+      propertyPath: hipfireYrecoil
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2398159691920518823, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
       propertyPath: goTosprintPosSpeed
       value: 0.04
       objectReference: {fileID: 0}
@@ -26199,6 +26219,10 @@ PrefabInstance:
     - target: {fileID: 4522259987880496054, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
       propertyPath: m_LocalScale.z
       value: 1.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5439456042557605283, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
+      propertyPath: sensitivity
+      value: 125
       objectReference: {fileID: 0}
     - target: {fileID: 5558466843309015479, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
       propertyPath: m_LocalScale.x

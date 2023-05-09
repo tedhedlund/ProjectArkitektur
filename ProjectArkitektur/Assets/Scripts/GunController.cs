@@ -137,7 +137,7 @@ public class GunController : MonoBehaviour
 
     private void FireAR()
     {
-        if (Input.GetButton("Fire1"))
+        if (Input.GetKey(KeyCode.Mouse0))
         {
             animator.SetBool("IsFiring", true);
 
