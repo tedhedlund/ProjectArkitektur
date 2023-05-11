@@ -5,8 +5,8 @@ using UnityEngine;
 public class GunController : MonoBehaviour
 {
     [Header("Gun Settings")]
-    [SerializeField] private int ammoPerMag = 30;
-    [SerializeField] private int ammoMaxCapacity = 60;
+    [SerializeField] private int ammoPerMag;
+    [SerializeField] private int ammoMaxCapacity;
     [SerializeField] private float damage = 10f;
     [SerializeField] private float range = 100f;
     [SerializeField] private float fireRate = 0.06f;
@@ -37,6 +37,7 @@ public class GunController : MonoBehaviour
         animator = GetComponent<Animator>();
         currentAmmoInMag = ammoPerMag;
         currentTotalAmmo = ammoMaxCapacity;
+        
     }
 
     // Update is called once per frame
@@ -64,6 +65,7 @@ public class GunController : MonoBehaviour
     {
         Debug.Log(currentTotalAmmo);
         Debug.Log(ammoTotalEmpty);
+
         if (!ammoInMagEmpty && !ammoTotalEmpty)
         {
             if (currentGun == CurrentGun.pistol)
@@ -137,6 +139,9 @@ public class GunController : MonoBehaviour
             firing = false;
         }
     }
+
+  
+
     void ShootRayCast()
     {
         muzzleFlash.Play();
