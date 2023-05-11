@@ -4,9 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu]
+
 public class IntEventSO : ScriptableObject
 {
-    public event Action<int> Event;
+    public event Action<int> EventAmmo;
+    
 
-    public void Invoke(int value) => Event?.Invoke(value);
+    public void InvokeAmmo(int value) => EventAmmo?.Invoke(value);
+    
 }

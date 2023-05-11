@@ -2,17 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PickUp : MonoBehaviour
+public class AmmoPickUp : MonoBehaviour
 {
     [SerializeField] private IntEventSO ammoEvent;
     [SerializeField] private int ammoValue = 30;
     [SerializeField] private GameObject player;
     [SerializeField] private Vector3 distance;
 
-    private void Start()
-    {
-        
-    }
 
     //private void OnTriggerEnter(Transform other)
     //{
@@ -33,7 +29,7 @@ public class PickUp : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.E))
             {
                 Debug.Log("E pressed");
-                ammoEvent.Invoke(ammoValue);
+                ammoEvent.InvokeAmmo(ammoValue);
                 Destroy(gameObject);
             }
         }
@@ -41,7 +37,7 @@ public class PickUp : MonoBehaviour
         if ( Vector3.Distance(player.transform.position, gameObject.transform.position) <= 2)
         {
             Debug.Log("Colliding with Player");
-            ammoEvent.Invoke(ammoValue);
+            ammoEvent.InvokeAmmo(ammoValue);
             Destroy(gameObject);
         }
 

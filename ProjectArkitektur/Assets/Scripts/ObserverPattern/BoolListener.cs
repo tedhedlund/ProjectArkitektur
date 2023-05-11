@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class IntEventListener : MonoBehaviour
+
+public class BoolListener : MonoBehaviour
 {
     public UnityEvent<int> OnEvent;
-    [SerializeField] private IntEventSO m_event;
+    [SerializeField] private BoolEvent int_event;
 
 
-    private void Start() => m_event.EventAmmo += InvokeEvent;
+    private void Start() => int_event.EventAR += InvokeEvent;
 
-    private void OnDestroy() => m_event.EventAmmo -= InvokeEvent;
+    
 
     private void InvokeEvent(int value)
     {

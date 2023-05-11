@@ -9,9 +9,9 @@ public class Ammo : MonoBehaviour
 
     [SerializeField] private GunController gunController;
 
-    private void Start() => ammoEvent.Event += UpdateAmmo;
+    private void Start() => ammoEvent.EventAmmo += UpdateAmmo;
 
-    private void OnDestroy() => ammoEvent.Event -= UpdateAmmo;
+    private void OnDestroy() => ammoEvent.EventAmmo -= UpdateAmmo;
 
     //private void UpdateAmmo(int newAmmo) => text.text = $"Ammo: {newAmmo}";
 
