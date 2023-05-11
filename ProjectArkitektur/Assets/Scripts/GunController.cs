@@ -63,8 +63,8 @@ public class GunController : MonoBehaviour
 
     void Shoot()
     {
-        Debug.Log(currentTotalAmmo);
-        Debug.Log(ammoTotalEmpty);
+        Debug.Log($"Total ammo: {currentTotalAmmo}");
+        Debug.Log($"Total ammo: {currentAmmoInMag}");
 
         if (!ammoInMagEmpty && !ammoTotalEmpty)
         {
@@ -90,12 +90,14 @@ public class GunController : MonoBehaviour
             currentTotalAmmo--;
 
         }
-        else if (currentAmmoInMag <= 0)
+
+        if (currentAmmoInMag <= 0)
         {
             ammoInMagEmpty = true;
             firing = false;
         }
-        else if (currentTotalAmmo <= 0)
+
+        if (currentTotalAmmo <= 0)
         {
             ammoTotalEmpty = true;
             firing = false;
@@ -128,6 +130,7 @@ public class GunController : MonoBehaviour
             }
             else if (currentTotalAmmo <= 0)
             {
+                animator.SetBool("IsFiring", false);
                 ammoTotalEmpty = true;
                 firing = false;
             }
