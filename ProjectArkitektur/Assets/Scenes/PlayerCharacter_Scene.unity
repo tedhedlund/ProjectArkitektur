@@ -26052,6 +26052,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 463704489939292717, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
+      propertyPath: ads
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1002786241405957492, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -26261,8 +26265,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6117348466093578076, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
+      propertyPath: hipPos.x
+      value: 0.1359997
+      objectReference: {fileID: 0}
+    - target: {fileID: 6117348466093578076, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
       propertyPath: hipPos.y
       value: -0.09
+      objectReference: {fileID: 0}
+    - target: {fileID: 6117348466093578076, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
+      propertyPath: hipPos.z
+      value: 0.4020013
       objectReference: {fileID: 0}
     - target: {fileID: 6117348466093578076, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
       propertyPath: adsRecoil
