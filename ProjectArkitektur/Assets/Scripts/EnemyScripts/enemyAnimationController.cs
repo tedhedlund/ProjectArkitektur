@@ -8,8 +8,6 @@ public class enemyAnimationController : MonoBehaviour
     [SerializeField] EnemyScript enemyScript;
     [SerializeField] Animator animator;
 
-    bool isDead = false;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -42,17 +40,6 @@ public class enemyAnimationController : MonoBehaviour
             animator.SetBool("isRunning", false);
             animator.SetBool("isWalking", false);
             animator.SetBool("isAttacking", true);
-        }
-        else if (enemyScript.currentState == ZombieState.Death)
-        {
-            //animator.SetBool("isRunning", false);
-            //animator.SetBool("isWalking", false);
-            //animator.SetBool("isAttacking", false);
-            //animator.SetBool("isDying", true);
-            if(!isDead)
-            animator.SetTrigger("isDying");
-
-            isDead = true;
         }
 
     }

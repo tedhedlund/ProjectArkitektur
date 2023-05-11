@@ -17,10 +17,6 @@ public class EnemyScript : MonoBehaviour
 
     float walkTimer = 0f;
 
-    float zombieHealth = 100f;
-     bool isDead = false;
-    float deathTimer = 0f;
-
    public bool dmgPlayer = false;
 
     // Start is called before the first frame update
@@ -33,37 +29,20 @@ public class EnemyScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Debug Code
-        if(Input.GetKeyDown(KeyCode.F))
-        {
-            zombieHealth = 0f;
-        }
 
-        if(zombieHealth <= 0f)
-        {                      
-            currentState = ZombieState.Death;
-            deathTimer += Time.deltaTime;
-            if(deathTimer >= 20f)
-            {
-                Destroy(gameObject);
-            }
-        }
-        else if (!isDead)
+        if (Vector3.Distance(agent.transform.position, player.transform.position) >= 10)
         {
-            if (Vector3.Distance(agent.transform.position, player.transform.position) >= 10)
+            walkTimer = 0;
+            currentState = ZombieState.Chasing;          
+        }
+        else
+        {
+            walkTimer += Time.deltaTime;
+            if(currentState != ZombieState.Hitting)
             {
-                walkTimer = 0;
-                currentState = ZombieState.Chasing;
-            }
-            else
-            {
-                walkTimer += Time.deltaTime;
-                if (currentState != ZombieState.Hitting)
-                {
-                    if (walkTimer >= 2f)
-                        currentState = ZombieState.Walking;
-                }
-            }
+                if(walkTimer >= 2f)
+                currentState = ZombieState.Walking;
+            }          
         }
 
         switch (currentState)
@@ -107,19 +86,6 @@ public class EnemyScript : MonoBehaviour
                     //Debug.Log("Hitting");
                     break;
                 }
-
-            case ZombieState.Death:
-                {
-                    if(!isDead)
-                    {                        
-                        Debug.Log("Zombie dead");
-                        agent.speed = 0;
-                        dmgPlayer = false;
-                        gameObject.GetComponent<Collider>().enabled = false;
-                    }
-                    isDead = true;
-                    break;
-                }
         }
     }
 
@@ -127,7 +93,6 @@ public class EnemyScript : MonoBehaviour
     {       
         if(other.gameObject == player)
         {
-            if(currentState != ZombieState.Death)
             currentState = ZombieState.Hitting;           
         }
     }
@@ -136,7 +101,6 @@ public class EnemyScript : MonoBehaviour
     {
         if (other.gameObject == player)
         {
-            if(currentState != ZombieState.Death)
             currentState = ZombieState.Hitting;
         }
     }
@@ -145,7 +109,6 @@ public class EnemyScript : MonoBehaviour
     {
         if(other.gameObject == player)
         {
-            if(currentState != ZombieState.Death)
             currentState = ZombieState.Walking;
         }
     }
@@ -157,6 +120,5 @@ public enum ZombieState
     Idle,
     Walking,
     Chasing,
-    Hitting,
-    Death
+    Hitting
 }
