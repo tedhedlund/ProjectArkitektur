@@ -12582,15 +12582,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4300533007854612, guid: ad2ab49d0a2a17148bd51c93d977bdbc, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.18811062
+      value: 0.1881106
       objectReference: {fileID: 0}
     - target: {fileID: 4300533007854612, guid: ad2ab49d0a2a17148bd51c93d977bdbc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.274
+      value: -0.27400127
       objectReference: {fileID: 0}
     - target: {fileID: 4300533007854612, guid: ad2ab49d0a2a17148bd51c93d977bdbc, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.073
+      value: 0.07300015
       objectReference: {fileID: 0}
     - target: {fileID: 4300533007854612, guid: ad2ab49d0a2a17148bd51c93d977bdbc, type: 3}
       propertyPath: m_LocalPosition.z
@@ -12630,7 +12630,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 198234346748616026, guid: ad2ab49d0a2a17148bd51c93d977bdbc, type: 3}
       propertyPath: lengthInSec
-      value: 0.1
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 198234346748616026, guid: ad2ab49d0a2a17148bd51c93d977bdbc, type: 3}
       propertyPath: playOnAwake
@@ -13306,7 +13306,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 545897549780785556, guid: 168ddcfa7e65f5446bbb1c757c2d05dc, type: 3}
       propertyPath: ammoMaxCapacity
-      value: 15
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 545897549780785556, guid: 168ddcfa7e65f5446bbb1c757c2d05dc, type: 3}
       propertyPath: maxAmmoCapacity
@@ -13409,9 +13409,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: 4d0dc7772622b5f47963fcdf7a1cb5b9, type: 2}
     - target: {fileID: 8228537633692475503, guid: 168ddcfa7e65f5446bbb1c757c2d05dc, type: 3}
+      propertyPath: ammoPerMag
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 8228537633692475503, guid: 168ddcfa7e65f5446bbb1c757c2d05dc, type: 3}
       propertyPath: muzzleFlash
       value: 
       objectReference: {fileID: 1875891347}
+    - target: {fileID: 8228537633692475503, guid: 168ddcfa7e65f5446bbb1c757c2d05dc, type: 3}
+      propertyPath: ammoMaxCapacity
+      value: 60
+      objectReference: {fileID: 0}
     - target: {fileID: 8762062677326073676, guid: 168ddcfa7e65f5446bbb1c757c2d05dc, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
