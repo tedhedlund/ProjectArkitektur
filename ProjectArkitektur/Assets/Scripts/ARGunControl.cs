@@ -5,12 +5,13 @@ using UnityEngine;
 
 public class ARGunControl : MonoBehaviour
 {
-    Animator animator;
 
+    Animator animator;
     public float damage = 10f;
     public float range = 100f;
-
     public Camera fpsCamera;
+    public enum CurrentGun { pistol, AR };
+    public CurrentGun currentGun;
 
     bool ammoEmpty = false;
     int currentAmmo;
