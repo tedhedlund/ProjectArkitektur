@@ -26187,6 +26187,14 @@ PrefabInstance:
       propertyPath: ads
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 463704489939292717, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
+      propertyPath: sprintSpeed
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 463704489939292717, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
+      propertyPath: maxSprintTime
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 532438199239211907, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -26336,24 +26344,36 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 616260909}
     - target: {fileID: 2398159691920518823, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
+      propertyPath: reloadSpeed
+      value: 1.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2398159691920518823, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
+      propertyPath: sprintPos.x
+      value: -0.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 2398159691920518823, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
       propertyPath: sprintPos.y
       value: -0.12
       objectReference: {fileID: 0}
     - target: {fileID: 2398159691920518823, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
+      propertyPath: sprintPos.z
+      value: 0.28
+      objectReference: {fileID: 0}
+    - target: {fileID: 2398159691920518823, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
       propertyPath: sprintRot.w
-      value: -0.95667845
+      value: -0.93742186
       objectReference: {fileID: 0}
     - target: {fileID: 2398159691920518823, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
       propertyPath: sprintRot.x
-      value: -0.09990896
+      value: -0.10312744
       objectReference: {fileID: 0}
     - target: {fileID: 2398159691920518823, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
       propertyPath: sprintRot.y
-      value: 0.20298983
+      value: 0.28273416
       objectReference: {fileID: 0}
     - target: {fileID: 2398159691920518823, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
       propertyPath: sprintRot.z
-      value: -0.18324792
+      value: -0.17511849
       objectReference: {fileID: 0}
     - target: {fileID: 2398159691920518823, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
       propertyPath: hipfireRecoil
@@ -26368,12 +26388,16 @@ PrefabInstance:
       value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 2398159691920518823, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
+      propertyPath: sprintBobSpeed
+      value: 2.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 2398159691920518823, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
       propertyPath: ammoMaxCapacity
-      value: 60
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 2398159691920518823, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
       propertyPath: goTosprintPosSpeed
-      value: 0.04
+      value: 0.03
       objectReference: {fileID: 0}
     - target: {fileID: 3093765676784140676, guid: 858308f797e8c5e48b43639a67fbda78, type: 3}
       propertyPath: m_Materials.Array.data[0]
