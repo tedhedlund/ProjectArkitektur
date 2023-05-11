@@ -139,6 +139,7 @@ public class GunController : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
+            player.moveStatus = Player_Controller.MoveStatus.idle;
             animator.SetTrigger("Shoot");
             ShootRayCast();
             CameraRecoil();
@@ -156,6 +157,7 @@ public class GunController : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Mouse0))
         {
+            player.moveStatus = Player_Controller.MoveStatus.idle;
             animator.SetBool("IsFiring", true);
 
             nextFire += Time.deltaTime;
