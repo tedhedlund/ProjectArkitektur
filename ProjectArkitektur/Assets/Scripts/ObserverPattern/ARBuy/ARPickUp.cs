@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ARPickUp : MonoBehaviour
 {
-    [SerializeField] private BoolEvent BuyAREvent;
+
     [SerializeField] private GameObject player;
     [SerializeField] private Vector3 distance;
     [SerializeField] public int boughtValue = 1;
@@ -14,12 +14,10 @@ public class ARPickUp : MonoBehaviour
         if (2 >= Vector3.Distance(gameObject.transform.position, player.transform.position) /*&& player.money >= 100*/ && Input.GetKeyDown(KeyCode.E))
         {
 
-            //if (Input.GetKeyDown(KeyCode.Q))
-            //{
             Debug.Log("E pressed");
-            BuyAREvent.InvokeARBuy(boughtValue);
-            //Destroy(gameObject);
-            //}
+            
+            boughtValue++;
+            
         }
         distance = gameObject.transform.position - player.transform.position;
 
