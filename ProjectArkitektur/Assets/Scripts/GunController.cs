@@ -23,6 +23,7 @@ public class GunController : MonoBehaviour
     [SerializeField] private float walkBob = 1.3f;    
     [SerializeField] private float sprintBobSpeed = 2;
     [SerializeField] private float reloadSpeed;
+    [SerializeField] private ParticleSystem muzzleFlash;
 
     [Header("Script Settings")]
     [SerializeField] private BulletHoles bulletHoles;
@@ -242,6 +243,8 @@ public class GunController : MonoBehaviour
 
     void ShootRayCast()
     {
+        muzzleFlash.Play();
+
         RaycastHit hitInfo;
         Vector3 startPos = fpsCamera.cameraTransform.position;
         if (Physics.Raycast(startPos, fpsCamera.cameraTransform.forward, out hitInfo, range, ~ignoreRaycast))
