@@ -5,7 +5,8 @@ using UnityEngine;
 public class GunController : MonoBehaviour
 {
     [Header("Gun Settings")]
-    [SerializeField] private int maxAmmo = 30;
+    [SerializeField] private int ammoPerMag;
+    [SerializeField] private int ammoMaxCapacity;
     [SerializeField] private float reloadTime;
     [SerializeField] private float damage = 10f;
     [SerializeField] private float range = 100f;
@@ -53,7 +54,8 @@ public class GunController : MonoBehaviour
     private float defaultAnimSpeed = 1.0f;
     private float debugBobSpeed;
 
-    private int currentAmmo;
+    private int currentAmmoInMag;
+    private int currentTotalAmmo;
     private int bulletCounter;
 
     // Start is called before the first frame update
@@ -63,8 +65,9 @@ public class GunController : MonoBehaviour
         ignoreRaycast = LayerMask.GetMask("IgnoreRaycast");
         hipPos = transform.parent.localPosition;
         hipRot = transform.parent.localRotation;
-        currentAmmo = maxAmmo;
-        
+        currentAmmoInMag = ammoPerMag;
+        currentTotalAmmo = ammoMaxCapacity;
+     
     }
 
     // Update is called once per frame
@@ -78,13 +81,21 @@ public class GunController : MonoBehaviour
 
     void Reload()
     {
-        if (Input.GetKeyDown(KeyCode.R) && !reloading && !firing)
+        if (Input.GetKeyDown(KeyCode.R) && !reloading && !firing && currentTotalAmmo > 0)
         {
             animator.SetTrigger("Reload");
-            currentAmmo = maxAmmo;
             ammoEmpty = false;
             player.ads = false;
             reloading = true;
+
+            if (currentTotalAmmo < ammoPerMag)
+            {
+                currentAmmoInMag = currentTotalAmmo;
+            }
+            else
+            {
+                currentAmmoInMag = ammoPerMag;
+            }
         }
 
         if (reloading)
@@ -96,6 +107,7 @@ public class GunController : MonoBehaviour
                 reloadTimer = 0;
             }
         }
+
         //Check if reload animation has finished playing
         //if (animator.GetCurrentAnimatorStateInfo(0).IsName("Reload") && 
         //    animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
@@ -106,7 +118,10 @@ public class GunController : MonoBehaviour
 
     void Shoot()
     {
-        if (!ammoEmpty && !reloading)
+        Debug.Log($"Total ammo: {currentTotalAmmo}");
+        Debug.Log($"Total ammo: {currentAmmoInMag}");
+
+        if (currentAmmoInMag > 0)
         {
             if (currentGun == CurrentGun.pistol)
             {
@@ -126,9 +141,10 @@ public class GunController : MonoBehaviour
             animator.SetTrigger("Shoot");
             ShootRayCast();
             CameraRecoil();
-            currentAmmo--;
+            currentAmmoInMag--;
+            currentTotalAmmo--;
         }
-        else if (currentAmmo <= 0)
+        else if (currentAmmoInMag <= 0)
         {
             ammoEmpty = true;
         }
@@ -147,14 +163,14 @@ public class GunController : MonoBehaviour
             {
                 ShootRayCast();
                 CameraRecoil();
-                currentAmmo--;
+                currentAmmoInMag--;
+                currentTotalAmmo--;
                 nextFire = 0;
             }
 
-            if (currentAmmo <= 0)
+            if (currentAmmoInMag <= 0 || currentTotalAmmo <= 0)
             {
                 animator.SetBool("IsFiring", false);
-                ammoEmpty = true;
             }
         }
 
@@ -189,9 +205,7 @@ public class GunController : MonoBehaviour
 
     private void HandleWeaponBob()
     {
-
         firing = animator.GetCurrentAnimatorStateInfo(0).IsName("Shoot");
-
 
         if (!firing && !reloading)
         {
@@ -252,8 +266,8 @@ public class GunController : MonoBehaviour
     void HandleBulletHit(RaycastHit hitInfo)
     {
         Debug.Log(hitInfo.transform.name);
-        bulletHoles.bulletHoles[bulletCounter++ % (int)maxAmmo].transform.position = hitInfo.point - Camera.main.transform.forward * 0.01f /*targetDirection.normalized * 0.01f*/;
-        bulletHoles.bulletHoles[bulletCounter % (int)maxAmmo].transform.rotation = Quaternion.LookRotation(hitInfo.normal);
+        bulletHoles.bulletHoles[bulletCounter++ % (int)ammoPerMag].transform.position = hitInfo.point - Camera.main.transform.forward * 0.01f /*targetDirection.normalized * 0.01f*/;
+        bulletHoles.bulletHoles[bulletCounter % (int)ammoPerMag].transform.rotation = Quaternion.LookRotation(hitInfo.normal);
 
         //Hiteffect
         GameObject impactGO = Instantiate(impactEffect, hitInfo.point, Quaternion.LookRotation(hitInfo.normal));
