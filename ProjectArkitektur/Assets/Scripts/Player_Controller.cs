@@ -19,6 +19,10 @@ public class Player_Controller : MonoBehaviour
     [SerializeField] private float crouchHeight;
     [SerializeField] private Transform sphereCheck;
 
+    [Header("Weapon move settings")]
+
+
+
     private CharacterController player;
     private LayerMask groundLayer;
 
@@ -37,8 +41,15 @@ public class Player_Controller : MonoBehaviour
     private bool onGround;
     private bool canSprint = true;
 
-    private enum MoveStatus { standing, crouching, sprinting }
-    private MoveStatus moveStatus = MoveStatus.standing;
+    public bool ads = false;
+    public bool sprinting = false;
+
+    public enum CrouchStatus { standing, crouching }
+    public CrouchStatus crouchStatus = CrouchStatus.standing;
+
+    public enum MoveStatus { idle, walking, sprinting, leftStrafe, rightStrafe }
+    public MoveStatus moveStatus = MoveStatus.idle;
+
 
     void Start()
     {
@@ -60,10 +71,11 @@ public class Player_Controller : MonoBehaviour
     private void CharacterMove()
     {
         // Set bool if player is/is not standing on the ground layer.
-        groundedOffset = moveStatus == MoveStatus.standing ? groundStandOffset : groundCrouchOffset;
+        groundedOffset = crouchStatus == CrouchStatus.standing ? groundStandOffset : groundCrouchOffset;
         sphereCheck.position = new Vector3(transform.position.x, transform.position.y + groundedOffset, transform.position.z);
         onGround = Physics.CheckSphere(sphereCheck.position, sphereCheckRadius, groundLayer);
 
+        HandleADS();
         HandleMove();
         HandleCrouch();
         HandleJump();
@@ -78,13 +90,21 @@ public class Player_Controller : MonoBehaviour
         ToggleCrouch();
     }
 
+    private void HandleADS()
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+            ads = !ads;
+        }
+    }
+
     private void ToggleCrouch()
     {
-        if (moveStatus == MoveStatus.crouching && player.height > crouchHeight)
+        if (crouchStatus == CrouchStatus.crouching && player.height > crouchHeight)
         {
             player.height = Mathf.Lerp(player.height, crouchHeight, crouchSpeed);
         }
-        else if(moveStatus == MoveStatus.standing && player.height < standHeight)
+        else if(crouchStatus == CrouchStatus.standing && player.height < standHeight)
         {
             player.height = Mathf.Lerp(player.height, standHeight, standUpSpeed);
         }
@@ -92,19 +112,19 @@ public class Player_Controller : MonoBehaviour
 
     private void ValidateStand()
     {
-        if (moveStatus == MoveStatus.crouching)
+        if (crouchStatus == CrouchStatus.crouching)
         {
             RaycastHit standHit;
             if (Physics.Raycast(transform.position, Vector3.up, out standHit))
             {
                 if (standHit.distance > standHeight + 0.1f)
                 {
-                    moveStatus = MoveStatus.standing;
+                    crouchStatus = CrouchStatus.standing;
                 }                                
             }
-            else moveStatus = MoveStatus.standing;
+            else crouchStatus = CrouchStatus.standing;
         }
-        else moveStatus = MoveStatus.crouching;
+        else crouchStatus = CrouchStatus.crouching;
     }
 
     private void HandleJump()
@@ -119,7 +139,7 @@ public class Player_Controller : MonoBehaviour
         if (onGround && Input.GetKeyDown(KeyCode.Space))
         {
             // If player wants to jump but is crouch, then stand up instead
-            if (moveStatus == MoveStatus.crouching)
+            if (crouchStatus == CrouchStatus.crouching)
             {
                 ValidateStand();
                 ToggleCrouch();
@@ -147,23 +167,52 @@ public class Player_Controller : MonoBehaviour
 
         // Start sprinting.
         // If player holds shift, sprint until exhausted by maxSprintTime.
-        if (Input.GetKey(KeyCode.LeftShift) && canSprint)
+        if (Input.GetKey(KeyCode.LeftShift) && canSprint && moveStatus != MoveStatus.idle)
         {
             moveSpeed = sprintSpeed;
             sprintTimer += Time.deltaTime;
+            ads = false;
+            moveStatus = MoveStatus.sprinting;
+
             if (sprintTimer >= maxSprintTime)
             {
                 canSprint = false;
+                sprinting = false;
             }
         }
-        else if (moveStatus == MoveStatus.crouching)
+        else if (crouchStatus == CrouchStatus.crouching || ads)
         {
+            // Check if player is crouched and moving or if crouch and idle
+            if (inputHorizontal != Vector3.zero || inputVertical != Vector3.zero)
+            {
+                moveStatus = MoveStatus.walking;
+            }
+            else moveStatus = MoveStatus.idle;
+
             moveSpeed = crouchWalkSpeed;
             canSprint = false;
+            sprinting = false;
         }
         else
         {
+            // Check if player is idle or moving
+            if (inputHorizontal == Vector3.zero && inputVertical == Vector3.zero)
+            {
+                moveStatus = MoveStatus.idle;
+            }
+            else if(inputHorizontal.x > 0 && inputVertical == Vector3.zero)
+            {
+                moveStatus = MoveStatus.rightStrafe;
+            }
+            else if(inputHorizontal.x < 0 && inputVertical == Vector3.zero)
+            {
+                moveStatus = MoveStatus.leftStrafe;
+            }
+            else moveStatus = MoveStatus.walking;
+
+
             moveSpeed = walkSpeed;
+            sprinting = false;
             if (sprintTimer > 0) sprintTimer -= Time.deltaTime;
         }
 
@@ -171,12 +220,16 @@ public class Player_Controller : MonoBehaviour
         if (!canSprint)
         {
             sprintTimer -= Time.deltaTime;
-            if (sprintTimer < maxSprintTime - sprintCoolDownTime && moveStatus != MoveStatus.crouching)
+            if (sprintTimer < maxSprintTime - sprintCoolDownTime && crouchStatus != CrouchStatus.crouching)
             {
                 canSprint = true;
                 sprintTimer = 0;
             }         
         }
+
+        // Check if player is sprinting
+
+
 
 
         // Move player horizontaly with direction vector.
