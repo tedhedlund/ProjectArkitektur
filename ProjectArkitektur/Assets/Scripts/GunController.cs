@@ -32,7 +32,6 @@ public class GunController : MonoBehaviour
     [SerializeField] private Player_Controller player;
     public enum CurrentGun { pistol, AR };
     public CurrentGun currentGun;
-
     
     private Animator animator;
     private LayerMask ignoreRaycast;
@@ -55,7 +54,7 @@ public class GunController : MonoBehaviour
     private float defaultAnimSpeed = 1.0f;
     private float debugBobSpeed;
 
-    private int currentAmmoInMag;
+    public int currentAmmoInMag;
     public int currentTotalAmmo;
     private int bulletCounter;
 
@@ -82,7 +81,7 @@ public class GunController : MonoBehaviour
 
     void Reload()
     {
-        if (Input.GetKeyDown(KeyCode.R) && !reloading && !firing && currentTotalAmmo > 0)
+        if (Input.GetKeyDown(KeyCode.R) && !reloading && !firing && currentTotalAmmo > 0 && currentAmmoInMag != currentTotalAmmo && currentAmmoInMag < ammoPerMag)
         {
             animator.SetTrigger("Reload");
             ammoEmpty = false;
@@ -120,9 +119,9 @@ public class GunController : MonoBehaviour
     void Shoot()
     {
         Debug.Log($"Total ammo: {currentTotalAmmo}");
-        Debug.Log($"Total ammo: {currentAmmoInMag}");
+        Debug.Log($"Total ammo in mag: {currentAmmoInMag}");
 
-        if (currentAmmoInMag > 0)
+        if (currentAmmoInMag > 0 && !reloading)
         {
             if (currentGun == CurrentGun.pistol)
             {
@@ -259,6 +258,7 @@ public class GunController : MonoBehaviour
                 if (Physics.Raycast(startPos, newFireDir, out hitInfo, range, ~ignoreRaycast))
                 {
                     HandleBulletHit(hitInfo);
+                    
                 }
             }
             else

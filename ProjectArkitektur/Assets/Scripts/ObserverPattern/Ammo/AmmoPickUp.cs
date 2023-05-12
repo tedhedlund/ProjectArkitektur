@@ -6,9 +6,12 @@ public class AmmoPickUp : MonoBehaviour
 {
     [SerializeField] private IntEventSO ammoEvent;
     [SerializeField] private int ammoValue = 30;
-    [SerializeField] private GameObject player;
     [SerializeField] private Vector3 distance;
 
+    private GameObject player;
+    private GameObject ammoBox;
+
+    // pickUp.AmmoSpawn(agent.transform.position); //Sätta in i ammoManager?
 
     //private void OnTriggerEnter(Transform other)
     //{
@@ -19,8 +22,14 @@ public class AmmoPickUp : MonoBehaviour
     //        Destroy(gameObject);
     //    }
 
-        
+
     //}
+
+    void Start()
+    {
+        ammoBox = this.gameObject;
+        player = GameObject.FindGameObjectWithTag("Player");
+    }
 
     private void Update()
     {
@@ -41,5 +50,12 @@ public class AmmoPickUp : MonoBehaviour
             Destroy(gameObject);
         }
 
+    }
+
+    public void AmmoSpawn(Vector3 position)
+    {
+        Quaternion rotation = new Quaternion(0, 0, 0, 0);
+
+        Instantiate(ammoBox, position, rotation);
     }
 }
