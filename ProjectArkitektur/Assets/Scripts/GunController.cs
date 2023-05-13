@@ -82,7 +82,7 @@ public class GunController : MonoBehaviour
 
     void Reload()
     {
-        if (Input.GetKeyDown(KeyCode.R) && !reloading && !firing && currentTotalAmmo > 0)
+        if (Input.GetKeyDown(KeyCode.R) && !reloading && !firing && currentTotalAmmo > 0 && currentAmmoInMag != currentTotalAmmo && currentAmmoInMag < ammoPerMag)
         {
             animator.SetTrigger("Reload");
             ammoEmpty = false;
@@ -120,9 +120,9 @@ public class GunController : MonoBehaviour
     void Shoot()
     {
         Debug.Log($"Total ammo: {currentTotalAmmo}");
-        Debug.Log($"Total ammo: {currentAmmoInMag}");
+        Debug.Log($"Total ammo in mag: {currentAmmoInMag}");
 
-        if (currentAmmoInMag > 0)
+        if (currentAmmoInMag > 0 && !reloading)
         {
             if (currentGun == CurrentGun.pistol)
             {
