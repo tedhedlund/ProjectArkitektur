@@ -30,6 +30,8 @@ public class GunController : MonoBehaviour
     [SerializeField] private Player_Look fpsCamera;
     [SerializeField] private GameObject impactEffect;
     [SerializeField] private Player_Controller player;
+    [SerializeField] private AudioManager audioManager;
+
     public enum CurrentGun { pistol, AR };
     public CurrentGun currentGun;
 
@@ -68,7 +70,6 @@ public class GunController : MonoBehaviour
         hipRot = transform.parent.localRotation;
         currentAmmoInMag = ammoPerMag;
         currentTotalAmmo = ammoMaxCapacity;
-     
     }
 
     // Update is called once per frame
@@ -88,6 +89,7 @@ public class GunController : MonoBehaviour
             ammoEmpty = false;
             player.ads = false;
             reloading = true;
+            HandleReloadSound();
 
             if (currentTotalAmmo < ammoPerMag)
             {
@@ -132,6 +134,7 @@ public class GunController : MonoBehaviour
             {
                 FireAR();
             }
+            
         }   
     }
 
@@ -142,9 +145,10 @@ public class GunController : MonoBehaviour
             player.moveStatus = Player_Controller.MoveStatus.idle;
             animator.SetTrigger("Shoot");
             ShootRayCast();
-            CameraRecoil();
+            CameraRecoil();         
             currentAmmoInMag--;
             currentTotalAmmo--;
+            HandleShootSound();
         }
         else if (currentAmmoInMag <= 0)
         {
@@ -169,6 +173,7 @@ public class GunController : MonoBehaviour
                 currentAmmoInMag--;
                 currentTotalAmmo--;
                 nextFire = 0;
+                HandleShootSound();
             }
 
             if (currentAmmoInMag <= 0 || currentTotalAmmo <= 0)
@@ -180,6 +185,40 @@ public class GunController : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             animator.SetBool("IsFiring", false);
+        }
+    }
+
+    private void HandleShootSound()
+    {
+        if (currentGun == CurrentGun.AR)
+        {
+            audioManager.rifleShoot.Play();
+            audioManager.pistolShoot.Play();
+        }
+        else if(currentGun == CurrentGun.pistol)
+        {
+            audioManager.pistolShoot.Play();
+        }
+
+        audioManager.dropCasing.Play();
+        audioManager.bulletFizzle.Play();
+    }
+
+    private void RifleReloadSound()
+    {
+        audioManager.rifleReload.Play();
+    }
+
+    private void HandleReloadSound()
+    {
+        if (currentGun == CurrentGun.AR)
+        {
+            Invoke("RifleReloadSound", 0.3f);
+
+        }
+        else if (currentGun == CurrentGun.pistol)
+        {
+            audioManager.pistolReload.Play();
         }
     }
 
