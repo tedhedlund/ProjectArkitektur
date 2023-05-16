@@ -43,12 +43,13 @@ public class EnemyScript : MonoBehaviour
         {                      
             currentState = ZombieState.Death;
             deathTimer += Time.deltaTime;
-            if(deathTimer >= 20f)
+            if(deathTimer >= 10f)
             {
                 Destroy(gameObject);
             }
         }
-        else if (!isDead)
+
+        if (!isDead)
         {
             if (Vector3.Distance(agent.transform.position, player.transform.position) >= 10)
             {
@@ -60,7 +61,7 @@ public class EnemyScript : MonoBehaviour
                 walkTimer += Time.deltaTime;
                 if (currentState != ZombieState.Hitting)
                 {
-                    if (walkTimer >= 2f)
+                    if (walkTimer >= Random.Range(2f, 30f))
                         currentState = ZombieState.Walking;
                 }
             }
