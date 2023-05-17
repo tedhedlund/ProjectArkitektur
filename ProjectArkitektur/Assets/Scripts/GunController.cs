@@ -121,8 +121,8 @@ public class GunController : MonoBehaviour
 
     void Shoot()
     {
-        Debug.Log($"Total ammo: {currentTotalAmmo}");
-        Debug.Log($"Total ammo in mag: {currentAmmoInMag}");
+        //Debug.Log($"Total ammo: {currentTotalAmmo}");
+        //Debug.Log($"Total ammo in mag: {currentAmmoInMag}");
 
         if (currentAmmoInMag > 0 && !reloading)
         {

@@ -16,15 +16,7 @@ public class AudioManager : MonoBehaviour
     public AudioSource bulletFizzle;
     public AudioSource dropCasing;
 
+    [Header("Walking sounds")]
+    public AudioSource walkingStep;
 
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
