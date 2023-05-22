@@ -19,4 +19,8 @@ public class AudioManager : MonoBehaviour
     [Header("Walking sounds")]
     public AudioSource walkingStep;
 
+    [Header("Zombie sounds")]
+    public AudioSource zombieSpawn;
+    public AudioSource zombieDead;
+    public AudioSource[] ZombieRandom;
 }
