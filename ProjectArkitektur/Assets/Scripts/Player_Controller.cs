@@ -43,6 +43,8 @@ public class Player_Controller : MonoBehaviour
     [Header("Misc")]
     public float sprintTimer;
     public float moveSpeed;
+    public int health = 100;
+    public bool playerAlive = true;
 
     private bool onGround;
     private bool canSprint = true;
@@ -71,7 +73,20 @@ public class Player_Controller : MonoBehaviour
     
     void Update()
     {
-        CharacterMove();
+        if(playerAlive)
+        {
+            CharacterMove();
+        }
+    }
+
+    public void TakeDamage(int damage)
+    {
+        health -= damage;
+
+        if (health <= 0)
+        {
+            playerAlive = false;
+        }
     }
 
     private void CharacterMove()
