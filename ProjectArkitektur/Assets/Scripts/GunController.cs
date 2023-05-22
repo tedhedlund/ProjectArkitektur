@@ -6,7 +6,7 @@ public class GunController : MonoBehaviour
 {
     [Header("Gun Settings")]
     [SerializeField] private int ammoPerMag;
-    [SerializeField] private int ammoMaxCapacity;
+    [SerializeField] public int ammoMaxCapacity;
     [SerializeField] private float reloadTime;
     [SerializeField] private float damage = 10f;
     [SerializeField] private float range = 100f;

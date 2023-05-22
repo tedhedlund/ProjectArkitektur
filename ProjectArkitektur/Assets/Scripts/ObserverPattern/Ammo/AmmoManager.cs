@@ -6,15 +6,20 @@ public class AmmoManager : MonoBehaviour
 {
     [SerializeField] private IntEventSO ammoAddedEvent;
     [SerializeField] private IntEventSO ammoUpdatedEvent;
-    private int currentAmmo = 0; 
+    private int currentAmmo = 0;
 
-    private void Start() => ammoAddedEvent.EventAmmo += UpdateAmmo;
+    //private void Start() => ammoAddedEvent.EventAmmo += UpdateAmmo;
 
-    private void OnDestroy() => ammoAddedEvent.EventAmmo -= UpdateAmmo; //Osäker på vad detta gör för vår ammologik
+    private void Start() => ammoAddedEvent.maxAmmo += UpdateAmmo; // Adds UpdateAmmo() to the subscriber list
 
-    private void UpdateAmmo(int addedAmmo)
+    private void OnDestroy() => ammoAddedEvent.maxAmmo -= UpdateAmmo; // Removes UpdateAmmo() to the subscriber list
+
+    private void UpdateAmmo(/*int addedAmmo*/)
     {
-        currentAmmo += addedAmmo;
-        ammoUpdatedEvent.InvokeAmmo(currentAmmo);
+        //currentAmmo += addedAmmo;
+        //ammoUpdatedEvent.InvokeAmmo(currentAmmo);
+
+        // 
+        ammoUpdatedEvent.InvokeAmmo();
     }
 }

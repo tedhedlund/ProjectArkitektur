@@ -38,7 +38,7 @@ public class AmmoPickUp : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.E))
             {
                 Debug.Log("E pressed");
-                ammoEvent.InvokeAmmo(ammoValue);
+                //ammoEvent.InvokeAmmo(ammoValue);
                 Destroy(gameObject);
             }
         }
@@ -46,7 +46,8 @@ public class AmmoPickUp : MonoBehaviour
         if ( Vector3.Distance(player.transform.position, gameObject.transform.position) <= 2)
         {
             Debug.Log("Colliding with Player");
-            ammoEvent.InvokeAmmo(ammoValue);
+            //ammoEvent.InvokeAmmo(ammoValue);
+            ammoEvent.InvokeAmmo();                 // Sending an invoke to all subscribers
             Destroy(gameObject);
         }
 
