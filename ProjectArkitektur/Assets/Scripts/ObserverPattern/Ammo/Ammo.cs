@@ -16,7 +16,7 @@ public class Ammo : MonoBehaviour
     // Test
     private void Start() => ammoEvent.maxAmmo += UpdateAmmo;
 
-    //private void OnDestroy() => ammoEvent.EventAmmo -= UpdateAmmo;
+    private void OnDestroy() => ammoEvent.maxAmmo -= UpdateAmmo;
 
     //private void UpdateAmmo(int newAmmo) => text.text = $"Ammo: {newAmmo}";
 

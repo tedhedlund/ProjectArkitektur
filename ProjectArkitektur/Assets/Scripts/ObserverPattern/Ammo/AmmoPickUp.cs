@@ -33,15 +33,6 @@ public class AmmoPickUp : MonoBehaviour
 
     private void Update()
     {
-        if (2 >= Vector3.Distance(gameObject.transform.position, player.transform.position))
-        {
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                Debug.Log("E pressed");
-                //ammoEvent.InvokeAmmo(ammoValue);
-                Destroy(gameObject);
-            }
-        }
         distance = gameObject.transform.position - player.transform.position;
         if ( Vector3.Distance(player.transform.position, gameObject.transform.position) <= 2)
         {
