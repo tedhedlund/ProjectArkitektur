@@ -15,5 +15,6 @@ public class UIControllerScript : MonoBehaviour
         uiModel.playerHealth = pController.health;
         uiModel.UpdateViewlHealth();
 
+
     }
 }

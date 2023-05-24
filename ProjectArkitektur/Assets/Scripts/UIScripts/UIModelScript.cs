@@ -12,8 +12,7 @@ public class UIModelScript : MonoBehaviour
     //Kills
 
     [SerializeField] UIViewScript uiView;    
-    [SerializeField] Player_Controller pController;
-
+    
     public int playerHealth;
     
     public int currentAmmoInMag;
