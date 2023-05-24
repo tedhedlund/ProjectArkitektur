@@ -35,7 +35,7 @@ public class EnemyScript : MonoBehaviour
 
     private void Awake()
     {
-        audioManager.zombieSpawn.Play();
+        //audioManager.zombieSpawn.Play();
     }
 
     // Update is called once per frame
