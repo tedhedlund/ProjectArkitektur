@@ -6,16 +6,14 @@ public class UIControllerScript : MonoBehaviour
 {
     //Description
     //The controller class acts as an intermediary between the model and view. For example it could listen for button clicks to call view and model.
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] UIModelScript uiModel;    
+    [SerializeField] Player_Controller pController;
 
     // Update is called once per frame
     void Update()
     {
-        
+        uiModel.playerHealth = pController.health;
+        uiModel.UpdateViewlHealth();
+
     }
 }

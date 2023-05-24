@@ -136,6 +136,7 @@ public class EnemyScript : MonoBehaviour
                     if(dmgPlayer)
                     {
                         Debug.Log("Player is hit");
+                        player.GetComponent<Player_Controller>().TakeDamage(10);
                         dmgPlayer = false;
 
                         //if (!audioManager.zombieAttack.isPlaying)

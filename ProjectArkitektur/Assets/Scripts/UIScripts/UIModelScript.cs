@@ -7,15 +7,23 @@ public class UIModelScript : MonoBehaviour
     //Description
     //The model class contains the data and logic for the UI. For example it stores the current score and calls methods for updating it.
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    //Health of player
+    //Ammo of player
+    //Kills
 
-    // Update is called once per frame
-    void Update()
+    [SerializeField] UIViewScript uiView;    
+    [SerializeField] Player_Controller pController;
+
+    public int playerHealth;
+    
+    public int currentAmmoInMag;
+    public int currentTotalAmmo;
+
+    public int curKills;
+
+    public void UpdateViewlHealth()
     {
-        
+        uiView.UpdateHealth(playerHealth);
     }
+    
 }
