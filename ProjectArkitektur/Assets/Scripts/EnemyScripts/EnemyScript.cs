@@ -8,14 +8,15 @@ using UnityEngine.InputSystem.Android;
 public class EnemyScript : MonoBehaviour
 {
     [SerializeField] NavMeshAgent agent;
-    [SerializeField] GameObject player;
+    [SerializeField] Player_Controller player;
 
     public ZombieState currentState;
 
     [SerializeField] float originalSpeed = 4f;
     [SerializeField] float chaseSpeed = 8f;
-    [SerializeField] private AudioManager audioManager;
+    //[SerializeField] private AudioManager audioManager;
     [SerializeField] private float timeBetweenSounds;
+    [SerializeField] private AudioSource[] zombieSounds;
 
     float walkTimer = 0f;
 
@@ -25,6 +26,9 @@ public class EnemyScript : MonoBehaviour
     float soundTimer;
 
    public bool dmgPlayer = false;
+
+    public float playerDist;
+    public float newVolume;
 
     // Start is called before the first frame update
     void Start()
@@ -47,6 +51,8 @@ public class EnemyScript : MonoBehaviour
             zombieHealth = 0f;
         }
 
+      
+
         if(zombieHealth <= 0f)
         {                      
             currentState = ZombieState.Death;
@@ -59,30 +65,7 @@ public class EnemyScript : MonoBehaviour
         }
         else if (!isDead)
         {
-            soundTimer += Time.deltaTime;
-            
-            if (soundTimer >= timeBetweenSounds)
-            {
-                int rnd = Random.Range(0, audioManager.ZombieRandom.Length - 1);
-
-                float dist = Vector3.Distance(transform.position, player.transform.position);
-                //if (dist <= 10f)
-                //{
-                //    float newVolume = 1.0f / dist;
-                //    audioManager.ZombieRandom[0].volume = newVolume;
-                //    audioManager.ZombieRandom[0].Play();
-                //    soundTimer = 0;
-                //}
-                //else
-                //{
-                //    audioManager.ZombieRandom[0].Stop();
-                //    soundTimer = 0;
-                //}
-                audioManager.ZombieRandom[0].volume = Mathf.Clamp01(1f - (dist / 10f));
-                audioManager.ZombieRandom[0].Play();
-                soundTimer = 0;
-
-            }
+            HandleZombieSound();
 
             if (Vector3.Distance(agent.transform.position, player.transform.position) >= 10)
             {
@@ -150,7 +133,7 @@ public class EnemyScript : MonoBehaviour
                     if(dmgPlayer)
                     {
                         Debug.Log("Player is hit");
-                        player.GetComponent<Player_Controller>().TakeDamage(10);
+                        player.TakeDamage(10);
                         dmgPlayer = false;
 
                         //if (!audioManager.zombieAttack.isPlaying)
@@ -177,10 +160,40 @@ public class EnemyScript : MonoBehaviour
         }
     }
 
+    private void HandleZombieSound()
+    {
+        soundTimer += Time.deltaTime;
+        newVolume = Mathf.Clamp01(1f - (playerDist / 50));
+        playerDist = Vector3.Distance(transform.position, player.transform.position);
+
+        if (soundTimer >= timeBetweenSounds)
+        {
+            int rnd = Random.Range(0, zombieSounds.Length - 1);
+
+            //playerDist = Vector3.Distance(transform.position, player.transform.position);
+            //if (dist <= 10f)
+            //{
+            //    float newVolume = 1.0f / dist;
+            //    audioManager.ZombieRandom[0].volume = newVolume;
+            //    audioManager.ZombieRandom[0].Play();
+            //    soundTimer = 0;
+            //}
+            //else
+            //{
+            //    audioManager.ZombieRandom[0].Stop();
+            //    soundTimer = 0;
+            //}
+            // newVolume = Mathf.Clamp01(1f - (playerDist / 100f));
+            zombieSounds[rnd].volume = newVolume;
+            zombieSounds[rnd].Play();
+            soundTimer = 0;
+
+        }
+    }
 
     private void OnTriggerEnter(Collider other)
     {       
-        if(other.gameObject == player)
+        if(other.gameObject.tag == "Player")
         {
             if(currentState != ZombieState.Death)
             currentState = ZombieState.Hitting;           
@@ -189,7 +202,7 @@ public class EnemyScript : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject == player)
+        if (other.gameObject.tag == "Player")
         {
             if(currentState != ZombieState.Death)
             currentState = ZombieState.Hitting;
@@ -198,7 +211,7 @@ public class EnemyScript : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if(other.gameObject == player)
+        if(other.gameObject.tag == "Player")
         {
             if(currentState != ZombieState.Death)
             currentState = ZombieState.Walking;

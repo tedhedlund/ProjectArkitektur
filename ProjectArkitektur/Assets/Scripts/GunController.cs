@@ -313,7 +313,13 @@ public class GunController : MonoBehaviour
     void HandleBulletHit(RaycastHit hitInfo)
     {
         Debug.Log(hitInfo.transform.name);
-        if (hitInfo.transform.tag != "Zombie")
+        if (hitInfo.transform.tag == "Zombie")
+        {
+            //Hiteffect
+            GameObject impactBlood = Instantiate(bloodImpactEffect, hitInfo.point, Quaternion.LookRotation(hitInfo.normal));
+            Destroy(impactBlood, 2f);
+        }
+        else
         {
             bulletHoles.bulletHoles[bulletCounter++ % (int)ammoPerMag].transform.position = hitInfo.point - Camera.main.transform.forward * 0.01f /*targetDirection.normalized * 0.01f*/;
             bulletHoles.bulletHoles[bulletCounter % (int)ammoPerMag].transform.rotation = Quaternion.LookRotation(hitInfo.normal);
@@ -321,12 +327,6 @@ public class GunController : MonoBehaviour
             //Hiteffect
             GameObject impactSand = Instantiate(sandImpactEffect, hitInfo.point, Quaternion.LookRotation(hitInfo.normal));
             Destroy(impactSand, 2f);
-        }
-        else
-        {
-            //Hiteffect
-            GameObject impactBlood = Instantiate(bloodImpactEffect, hitInfo.point, Quaternion.LookRotation(hitInfo.normal));
-            Destroy(impactBlood, 2f);
         }
 
     }
