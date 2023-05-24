@@ -120,8 +120,8 @@ Material:
     - _SpecContrast: 2
     - _SpecIntensity: 2.3
     - _Transparency: 0.95
-    - _WaveFreq: 20
-    - _WaveHeight: 4
+    - _WaveFreq: 10
+    - _WaveHeight: 5.5
     - _WavePower: 1.4029856
     - _WaveScale: 0.058
     - _fogEnd: 400
