@@ -14,7 +14,6 @@ public class WeaponManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
         SelectWeapon();
     }
 
@@ -25,9 +24,7 @@ public class WeaponManager : MonoBehaviour
         {
             SelectWeaponWithScroll();
             SelectWeaponWithKey();
-        }
-        
-       
+        }      
     }
 
     void SelectWeaponWithScroll()

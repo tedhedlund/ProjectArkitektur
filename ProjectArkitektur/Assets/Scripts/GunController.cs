@@ -57,8 +57,8 @@ public class GunController : MonoBehaviour
     private float defaultAnimSpeed = 1.0f;
     private float debugBobSpeed;
 
-    private int currentAmmoInMag;
-    public int currentTotalAmmo;    //Används i AmmoObserver
+    public int currentAmmoInMag;    //Används i HUD
+    public int currentTotalAmmo;    //Används i AmmoObserver och HUD
     private int bulletCounter;
 
     // Start is called before the first frame update
