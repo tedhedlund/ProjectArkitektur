@@ -5,9 +5,9 @@ using UnityEngine;
 public class ARPickUp : MonoBehaviour
 {
 
-    [SerializeField] private GameObject player;
-    [SerializeField] private Vector3 distance;
-    [SerializeField] public int boughtValue = 1;
+    private GameObject player;
+    private Vector3 distance;
+    public int boughtValue = 1;
 
     private void Start()
     {
