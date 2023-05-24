@@ -18,11 +18,22 @@ public class UIModelScript : MonoBehaviour
     public int currentAmmoInMag;
     public int currentTotalAmmo;
 
-    public int curKills;
+    public int curKills = 0;
 
     public void UpdateViewlHealth()
     {
         uiView.UpdateHealth(playerHealth);
+    }
+
+    public void UpdateViewAmmo()
+    {
+        uiView.UpdateAmmoMag(currentAmmoInMag);
+        uiView.UpdateAmmoTotal(currentTotalAmmo);
+    }
+
+    public void UpdateViewKills()
+    {
+        uiView.UpdateKills(curKills);
     }
     
 }

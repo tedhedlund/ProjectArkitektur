@@ -4,11 +4,13 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem.Android;
+using UnityEngine.InputSystem.XR.Haptics;
 
 public class EnemyScript : MonoBehaviour
 {
     [SerializeField] NavMeshAgent agent;
     [SerializeField] GameObject player;
+    [SerializeField] GameObject canvas;
 
     public ZombieState currentState;
 
@@ -28,7 +30,7 @@ public class EnemyScript : MonoBehaviour
 
     // Start is called before the first frame update
     void Start()
-    {
+    {        
         currentState = ZombieState.Idle;
         agent.speed = originalSpeed;
     }
@@ -153,10 +155,12 @@ public class EnemyScript : MonoBehaviour
                     if(!isDead)
                     {                        
                         Debug.Log("Zombie dead");
+
                         agent.speed = 0;
                         dmgPlayer = false;
                         gameObject.GetComponent<Collider>().enabled = false;
-                    }
+                        canvas.GetComponent<UIModelScript>().curKills++;
+                    }                   
                     isDead = true;
                     break;
                 }
