@@ -21,7 +21,7 @@ public class WeaponManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(ARPickUp.boughtValue >= 2)
+        if(ARPickUp.arPickedUp)
         {
             SelectWeaponWithScroll();
             SelectWeaponWithKey();

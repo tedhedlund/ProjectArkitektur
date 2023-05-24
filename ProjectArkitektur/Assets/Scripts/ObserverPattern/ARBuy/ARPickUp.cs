@@ -7,7 +7,7 @@ public class ARPickUp : MonoBehaviour
 
     private GameObject player;
     private Vector3 distance;
-    public int boughtValue = 1;
+    public bool arPickedUp = false;
 
     private void Start()
     {
@@ -20,8 +20,8 @@ public class ARPickUp : MonoBehaviour
         {
 
             Debug.Log("E pressed");
-            
-            boughtValue++;
+
+            arPickedUp = true;
             Destroy(this);
             
         }
