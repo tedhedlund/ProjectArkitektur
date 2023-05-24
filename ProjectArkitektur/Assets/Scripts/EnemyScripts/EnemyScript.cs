@@ -14,12 +14,15 @@ public class EnemyScript : MonoBehaviour
 
     [SerializeField] float originalSpeed = 4f;
     [SerializeField] float chaseSpeed = 8f;
+    [SerializeField] private AudioManager audioManager;
+    [SerializeField] private float timeBetweenSounds;
 
     float walkTimer = 0f;
 
     float zombieHealth = 100f;
      bool isDead = false;
     float deathTimer = 0f;
+    float soundTimer;
 
    public bool dmgPlayer = false;
 
@@ -28,6 +31,11 @@ public class EnemyScript : MonoBehaviour
     {
         currentState = ZombieState.Idle;
         agent.speed = originalSpeed;
+    }
+
+    private void Awake()
+    {
+        audioManager.zombieSpawn.Play();
     }
 
     // Update is called once per frame
@@ -43,6 +51,7 @@ public class EnemyScript : MonoBehaviour
         {                      
             currentState = ZombieState.Death;
             deathTimer += Time.deltaTime;
+
             if(deathTimer >= 20f)
             {
                 Destroy(gameObject);
@@ -50,6 +59,17 @@ public class EnemyScript : MonoBehaviour
         }
         else if (!isDead)
         {
+            soundTimer += Time.deltaTime;
+            
+            if (soundTimer >= timeBetweenSounds)
+            {
+                int rnd = Random.Range(0, audioManager.ZombieRandom.Length - 1);
+
+                 audioManager.ZombieRandom[rnd].Play();
+                 soundTimer = 0;
+                
+            }
+
             if (Vector3.Distance(agent.transform.position, player.transform.position) >= 10)
             {
                 walkTimer = 0;
@@ -71,8 +91,11 @@ public class EnemyScript : MonoBehaviour
             case ZombieState.Idle:
                 {
                     agent.speed = 0;
-                    //Debug.Log("Idle");
+                    //Debug.Log("Idle");            
                     dmgPlayer = false;
+
+
+
                     break;
                 }
 
@@ -82,6 +105,12 @@ public class EnemyScript : MonoBehaviour
                     agent.speed = originalSpeed;
                     agent.destination = player.transform.position;
                     dmgPlayer = false;
+                    //int rnd = Random.Range(0, audioManager.ZombieRandom.Length - 1);
+                    //if (!audioManager.ZombieRandom[rnd].isPlaying)
+                    //{
+                    //    audioManager.ZombieRandom[rnd].Play();
+                    //}
+                   
                     break;
                 }
 
@@ -91,6 +120,11 @@ public class EnemyScript : MonoBehaviour
                     agent.speed = chaseSpeed;
                     agent.destination = player.transform.position;
                     dmgPlayer = false;
+                    //if (!audioManager.zombieChase.isPlaying)
+                    //{
+                    //    audioManager.zombieChase.Play();
+                    //}
+                    
                     break;
                 }
 
@@ -103,6 +137,11 @@ public class EnemyScript : MonoBehaviour
                     {
                         Debug.Log("Player is hit");
                         dmgPlayer = false;
+
+                        //if (!audioManager.zombieAttack.isPlaying)
+                        //{
+                        //    audioManager.zombieAttack.Play();
+                        //}
                     }
                     //Debug.Log("Hitting");
                     break;
