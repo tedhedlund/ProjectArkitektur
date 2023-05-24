@@ -6,7 +6,7 @@ public class GunController : MonoBehaviour
 {
     [Header("Gun Settings")]
     [SerializeField] private int ammoPerMag;
-    [SerializeField] private int ammoMaxCapacity;
+    [SerializeField] public int ammoMaxCapacity;    //Används i AmmoObserver
     [SerializeField] private float reloadTime;
     [SerializeField] private float damage = 10f;
     [SerializeField] private float range = 100f;
@@ -58,7 +58,7 @@ public class GunController : MonoBehaviour
     private float debugBobSpeed;
 
     private int currentAmmoInMag;
-    private int currentTotalAmmo;
+    public int currentTotalAmmo;    //Används i AmmoObserver
     private int bulletCounter;
 
     // Start is called before the first frame update
