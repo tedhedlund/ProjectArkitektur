@@ -65,9 +65,23 @@ public class EnemyScript : MonoBehaviour
             {
                 int rnd = Random.Range(0, audioManager.ZombieRandom.Length - 1);
 
-                 audioManager.ZombieRandom[rnd].Play();
-                 soundTimer = 0;
-                
+                float dist = Vector3.Distance(transform.position, player.transform.position);
+                //if (dist <= 10f)
+                //{
+                //    float newVolume = 1.0f / dist;
+                //    audioManager.ZombieRandom[0].volume = newVolume;
+                //    audioManager.ZombieRandom[0].Play();
+                //    soundTimer = 0;
+                //}
+                //else
+                //{
+                //    audioManager.ZombieRandom[0].Stop();
+                //    soundTimer = 0;
+                //}
+                audioManager.ZombieRandom[0].volume = Mathf.Clamp01(1f - (dist / 10f));
+                audioManager.ZombieRandom[0].Play();
+                soundTimer = 0;
+
             }
 
             if (Vector3.Distance(agent.transform.position, player.transform.position) >= 10)
@@ -162,6 +176,7 @@ public class EnemyScript : MonoBehaviour
                 }
         }
     }
+
 
     private void OnTriggerEnter(Collider other)
     {       
