@@ -18,10 +18,12 @@ public class Player_Controller : MonoBehaviour
     [SerializeField] private float jumpMultiplier;
     [SerializeField] private float crouchHeight;
     [SerializeField] private Transform sphereCheck;
+    [SerializeField] private AudioManager audioManager;
 
-    [Header("Weapon move settings")]
-
-
+    [Header("Player sound settings")]
+    [SerializeField] private float crouchStepTime;
+    [SerializeField] private float walkingStepTime;
+    [SerializeField] private float sprintStepTime;
 
     private CharacterController player;
     private LayerMask groundLayer;
@@ -35,8 +37,14 @@ public class Player_Controller : MonoBehaviour
     private float groundedOffset;
     private float gravity;
     private float standHeight;
+    private float steptimer;
+    private float currentStepTime;
+
+    [Header("Misc")]
     public float sprintTimer;
     public float moveSpeed;
+    public int health = 100;
+    public bool playerAlive = true;
 
     private bool onGround;
     private bool canSprint = true;
@@ -65,7 +73,20 @@ public class Player_Controller : MonoBehaviour
     
     void Update()
     {
-        CharacterMove();
+        if(playerAlive)
+        {
+            CharacterMove();
+        }
+    }
+
+    public void TakeDamage(int damage)
+    {
+        health -= damage;
+
+        if (health <= 0)
+        {
+            playerAlive = false;
+        }
     }
 
     private void CharacterMove()
@@ -202,11 +223,13 @@ public class Player_Controller : MonoBehaviour
             }
             else if(inputHorizontal.x > 0 && inputVertical == Vector3.zero)
             {
-                moveStatus = MoveStatus.rightStrafe;
+                // Ej implementerad ännu
+                //moveStatus = MoveStatus.rightStrafe;
             }
             else if(inputHorizontal.x < 0 && inputVertical == Vector3.zero)
             {
-                moveStatus = MoveStatus.leftStrafe;
+                // Ej implementerad ännu
+                //moveStatus = MoveStatus.leftStrafe;
             }
             else moveStatus = MoveStatus.walking;
 
@@ -227,15 +250,45 @@ public class Player_Controller : MonoBehaviour
             }         
         }
 
-        // Check if player is sprinting
-
-
-
-
         // Move player horizontaly with direction vector.
         // Clamp the magnitude of the direction vector to max 1
         // in order to avoid the player moving faster diagonally.
         player.Move(Vector3.ClampMagnitude(direction, 1f) * moveSpeed * Time.deltaTime);
 
+        HandlePlayerSound();
+    }
+
+    private void HandlePlayerSound()
+    {
+        switch (moveStatus)
+        {
+            case MoveStatus.walking:
+                // If walking crouched
+                if (crouchStatus == CrouchStatus.crouching)
+                {
+                    currentStepTime = crouchStepTime;
+                }
+                // If walking standing up
+                else currentStepTime = walkingStepTime;
+                break;
+
+            case MoveStatus.sprinting:
+                currentStepTime = sprintStepTime;
+                break;
+            default:
+                break;
+        }
+
+        steptimer += Time.deltaTime;
+        // Dont play walking sound if jumping/in air
+        if (onGround && moveStatus != MoveStatus.idle)
+        {
+            
+            if (steptimer >= currentStepTime)
+            {
+                audioManager.walkingStep.Play();
+                steptimer = 0;
+            }
+        }
     }
 }
