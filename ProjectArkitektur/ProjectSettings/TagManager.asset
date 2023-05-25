@@ -8,6 +8,7 @@ TagManager:
   - HandGun
   - ARPickup
   - Zombie
+  - AmmoBox
   layers:
   - Default
   - TransparentFX

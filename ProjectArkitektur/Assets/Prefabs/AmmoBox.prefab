@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7840469510948702754}
   m_Layer: 0
   m_Name: AmmoBox
-  m_TagString: Untagged
+  m_TagString: AmmoBox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -172,7 +172,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ammoEvent: {fileID: 11400000, guid: 40157070a39157e45a150290c0fc9128, type: 2}
-  ammoValue: 30
   distance: {x: 0, y: 0, z: 0}
 --- !u!4 &7041288581813037164 stripped
 Transform:
