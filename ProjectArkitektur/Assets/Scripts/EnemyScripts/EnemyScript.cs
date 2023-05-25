@@ -30,11 +30,18 @@ public class EnemyScript : MonoBehaviour
     public float playerDist;
     public float newVolume;
 
+    GameObject ammoBoxToSpawn;
+    bool hasInstantiatedAmmoBox;
+    bool hasIncrementedDeathCounter;
+    private static int deathCounter = 0;
+
     // Start is called before the first frame update
     void Start()
     {
         currentState = ZombieState.Idle;
         agent.speed = originalSpeed;
+
+        ammoBoxToSpawn = GameObject.FindGameObjectWithTag("AmmoBox");
     }
 
     private void Awake()
@@ -54,7 +61,10 @@ public class EnemyScript : MonoBehaviour
       
 
         if(zombieHealth <= 0f)
-        {                      
+        {
+            Debug.Log($"Deathcounter: {deathCounter}");
+            HandleAmmoBoxSpawn();
+            
             currentState = ZombieState.Death;
             deathTimer += Time.deltaTime;
 
@@ -188,6 +198,31 @@ public class EnemyScript : MonoBehaviour
             zombieSounds[rnd].Play();
             soundTimer = 0;
 
+        }
+    }
+
+    public void TakeDamage(float damage)
+    {
+        zombieHealth -= damage;
+    }
+
+    private void HandleAmmoBoxSpawn()
+    {
+        if (!hasIncrementedDeathCounter)
+        {
+            deathCounter++;
+            hasIncrementedDeathCounter = true;
+        }
+
+        int ammoSpawnInterval = 3;
+        if (!hasInstantiatedAmmoBox && deathCounter == ammoSpawnInterval)
+        {
+            float yOffset = 1.5f;
+            Vector3 deathPosition = transform.position;
+            deathPosition.y -= yOffset;
+            GameObject ammoBox = Instantiate(ammoBoxToSpawn, deathPosition, Quaternion.identity);
+            hasInstantiatedAmmoBox = true;
+            deathCounter = 0;
         }
     }
 

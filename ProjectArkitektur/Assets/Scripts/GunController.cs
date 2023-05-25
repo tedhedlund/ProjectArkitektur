@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class GunController : MonoBehaviour
@@ -318,6 +320,8 @@ public class GunController : MonoBehaviour
             //Hiteffect
             GameObject impactBlood = Instantiate(bloodImpactEffect, hitInfo.point, Quaternion.LookRotation(hitInfo.normal));
             Destroy(impactBlood, 2f);
+
+            hitInfo.transform.gameObject.SendMessageUpwards("TakeDamage", damage);
         }
         else
         {
