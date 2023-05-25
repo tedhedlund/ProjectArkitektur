@@ -31,7 +31,7 @@ public class GunController : MonoBehaviour
     [SerializeField] private GameObject sandImpactEffect;
     [SerializeField] private GameObject bloodImpactEffect;
     [SerializeField] private Player_Controller player;
-    //[SerializeField] private AudioManager audioManager;
+    [SerializeField] private AudioManager audioManager;
     [SerializeField] private Transform cameraShootPos;
 
     public enum CurrentGun { pistol, AR };
