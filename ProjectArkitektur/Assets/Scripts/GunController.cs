@@ -6,7 +6,7 @@ public class GunController : MonoBehaviour
 {
     [Header("Gun Settings")]
     [SerializeField] private int ammoPerMag;
-    [SerializeField] public int ammoMaxCapacity;    //Används i AmmoObserver
+    [SerializeField] private int ammoMaxCapacity;
     [SerializeField] private float reloadTime;
     [SerializeField] private float damage = 10f;
     [SerializeField] private float range = 100f;
@@ -28,12 +28,8 @@ public class GunController : MonoBehaviour
     [Header("Script Settings")]
     [SerializeField] private BulletHoles bulletHoles;
     [SerializeField] private Player_Look fpsCamera;
-    [SerializeField] private GameObject sandImpactEffect;
-    [SerializeField] private GameObject bloodImpactEffect;
+    [SerializeField] private GameObject impactEffect;
     [SerializeField] private Player_Controller player;
-    [SerializeField] private AudioManager audioManager;
-    [SerializeField] private Transform cameraShootPos;
-
     public enum CurrentGun { pistol, AR };
     public CurrentGun currentGun;
 
@@ -59,8 +55,8 @@ public class GunController : MonoBehaviour
     private float defaultAnimSpeed = 1.0f;
     private float debugBobSpeed;
 
-    public int currentAmmoInMag;    //Används i HUD
-    public int currentTotalAmmo;    //Används i AmmoObserver och HUD
+    private int currentAmmoInMag;
+    private int currentTotalAmmo;
     private int bulletCounter;
 
     // Start is called before the first frame update
@@ -72,6 +68,7 @@ public class GunController : MonoBehaviour
         hipRot = transform.parent.localRotation;
         currentAmmoInMag = ammoPerMag;
         currentTotalAmmo = ammoMaxCapacity;
+     
     }
 
     // Update is called once per frame
@@ -91,7 +88,6 @@ public class GunController : MonoBehaviour
             ammoEmpty = false;
             player.ads = false;
             reloading = true;
-            HandleReloadSound();
 
             if (currentTotalAmmo < ammoPerMag)
             {
@@ -123,8 +119,8 @@ public class GunController : MonoBehaviour
 
     void Shoot()
     {
-        //Debug.Log($"Total ammo: {currentTotalAmmo}");
-        //Debug.Log($"Total ammo in mag: {currentAmmoInMag}");
+        Debug.Log($"Total ammo: {currentTotalAmmo}");
+        Debug.Log($"Total ammo in mag: {currentAmmoInMag}");
 
         if (currentAmmoInMag > 0 && !reloading)
         {
@@ -136,7 +132,6 @@ public class GunController : MonoBehaviour
             {
                 FireAR();
             }
-            
         }   
     }
 
@@ -147,10 +142,9 @@ public class GunController : MonoBehaviour
             player.moveStatus = Player_Controller.MoveStatus.idle;
             animator.SetTrigger("Shoot");
             ShootRayCast();
-            CameraRecoil();         
+            CameraRecoil();
             currentAmmoInMag--;
             currentTotalAmmo--;
-            HandleShootSound();
         }
         else if (currentAmmoInMag <= 0)
         {
@@ -175,7 +169,6 @@ public class GunController : MonoBehaviour
                 currentAmmoInMag--;
                 currentTotalAmmo--;
                 nextFire = 0;
-                HandleShootSound();
             }
 
             if (currentAmmoInMag <= 0 || currentTotalAmmo <= 0)
@@ -187,40 +180,6 @@ public class GunController : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             animator.SetBool("IsFiring", false);
-        }
-    }
-
-    private void HandleShootSound()
-    {
-        if (currentGun == CurrentGun.AR)
-        {
-            audioManager.rifleShoot.Play();
-            audioManager.pistolShoot.Play();
-        }
-        else if(currentGun == CurrentGun.pistol)
-        {
-            audioManager.pistolShoot.Play();
-        }
-
-        audioManager.dropCasing.Play();
-        audioManager.bulletFizzle.Play();
-    }
-
-    private void RifleReloadSound()
-    {
-        audioManager.rifleReload.Play();
-    }
-
-    private void HandleReloadSound()
-    {
-        if (currentGun == CurrentGun.AR)
-        {
-            Invoke("RifleReloadSound", 0.3f);
-
-        }
-        else if (currentGun == CurrentGun.pistol)
-        {
-            audioManager.pistolReload.Play();
         }
     }
 
@@ -289,9 +248,8 @@ public class GunController : MonoBehaviour
         muzzleFlash.Play();
 
         RaycastHit hitInfo;
-        Vector3 startPos = new Vector3(fpsCamera.cameraTransform.position.x, fpsCamera.cameraTransform.position.y, fpsCamera.cameraTransform.position.z);
-
-        if (Physics.Raycast(cameraShootPos.position, fpsCamera.cameraTransform.forward, out hitInfo, range, ~ignoreRaycast))
+        Vector3 startPos = fpsCamera.cameraTransform.position;
+        if (Physics.Raycast(startPos, fpsCamera.cameraTransform.forward, out hitInfo, range, ~ignoreRaycast))
         {
             // Add extra hipfire recoil if player is not ADS
             if (!player.ads)
@@ -313,22 +271,12 @@ public class GunController : MonoBehaviour
     void HandleBulletHit(RaycastHit hitInfo)
     {
         Debug.Log(hitInfo.transform.name);
-        if (hitInfo.transform.tag == "Zombie")
-        {
-            //Hiteffect
-            GameObject impactBlood = Instantiate(bloodImpactEffect, hitInfo.point, Quaternion.LookRotation(hitInfo.normal));
-            Destroy(impactBlood, 2f);
-        }
-        else
-        {
-            bulletHoles.bulletHoles[bulletCounter++ % (int)ammoPerMag].transform.position = hitInfo.point - Camera.main.transform.forward * 0.01f /*targetDirection.normalized * 0.01f*/;
-            bulletHoles.bulletHoles[bulletCounter % (int)ammoPerMag].transform.rotation = Quaternion.LookRotation(hitInfo.normal);
+        bulletHoles.bulletHoles[bulletCounter++ % (int)ammoPerMag].transform.position = hitInfo.point - Camera.main.transform.forward * 0.01f /*targetDirection.normalized * 0.01f*/;
+        bulletHoles.bulletHoles[bulletCounter % (int)ammoPerMag].transform.rotation = Quaternion.LookRotation(hitInfo.normal);
 
-            //Hiteffect
-            GameObject impactSand = Instantiate(sandImpactEffect, hitInfo.point, Quaternion.LookRotation(hitInfo.normal));
-            Destroy(impactSand, 2f);
-        }
-
+        //Hiteffect
+        GameObject impactGO = Instantiate(impactEffect, hitInfo.point, Quaternion.LookRotation(hitInfo.normal));
+        Destroy(impactGO, 2f);
     }
 
 
