@@ -215,13 +215,14 @@ public class EnemyScript : MonoBehaviour
         }
 
         int ammoSpawnInterval = 3;
-        if (!hasInstantiatedAmmoBox && deathCounter % ammoSpawnInterval == 0)
+        if (!hasInstantiatedAmmoBox && deathCounter == ammoSpawnInterval)
         {
             float yOffset = 1.5f;
             Vector3 deathPosition = transform.position;
             deathPosition.y -= yOffset;
             GameObject ammoBox = Instantiate(ammoBoxToSpawn, deathPosition, Quaternion.identity);
             hasInstantiatedAmmoBox = true;
+            deathCounter = 0;
         }
     }
 
