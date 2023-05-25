@@ -28,9 +28,11 @@ public class GunController : MonoBehaviour
     [Header("Script Settings")]
     [SerializeField] private BulletHoles bulletHoles;
     [SerializeField] private Player_Look fpsCamera;
-    [SerializeField] private GameObject impactEffect;
+    [SerializeField] private GameObject sandImpactEffect;
+    [SerializeField] private GameObject bloodImpactEffect;
     [SerializeField] private Player_Controller player;
     [SerializeField] private AudioManager audioManager;
+    [SerializeField] private Transform cameraShootPos;
 
     public enum CurrentGun { pistol, AR };
     public CurrentGun currentGun;
@@ -287,8 +289,9 @@ public class GunController : MonoBehaviour
         muzzleFlash.Play();
 
         RaycastHit hitInfo;
-        Vector3 startPos = fpsCamera.cameraTransform.position;
-        if (Physics.Raycast(startPos, fpsCamera.cameraTransform.forward, out hitInfo, range, ~ignoreRaycast))
+        Vector3 startPos = new Vector3(fpsCamera.cameraTransform.position.x, fpsCamera.cameraTransform.position.y, fpsCamera.cameraTransform.position.z);
+
+        if (Physics.Raycast(cameraShootPos.position, fpsCamera.cameraTransform.forward, out hitInfo, range, ~ignoreRaycast))
         {
             // Add extra hipfire recoil if player is not ADS
             if (!player.ads)
@@ -310,12 +313,22 @@ public class GunController : MonoBehaviour
     void HandleBulletHit(RaycastHit hitInfo)
     {
         Debug.Log(hitInfo.transform.name);
-        bulletHoles.bulletHoles[bulletCounter++ % (int)ammoPerMag].transform.position = hitInfo.point - Camera.main.transform.forward * 0.01f /*targetDirection.normalized * 0.01f*/;
-        bulletHoles.bulletHoles[bulletCounter % (int)ammoPerMag].transform.rotation = Quaternion.LookRotation(hitInfo.normal);
+        if (hitInfo.transform.tag == "Zombie")
+        {
+            //Hiteffect
+            GameObject impactBlood = Instantiate(bloodImpactEffect, hitInfo.point, Quaternion.LookRotation(hitInfo.normal));
+            Destroy(impactBlood, 2f);
+        }
+        else
+        {
+            bulletHoles.bulletHoles[bulletCounter++ % (int)ammoPerMag].transform.position = hitInfo.point - Camera.main.transform.forward * 0.01f /*targetDirection.normalized * 0.01f*/;
+            bulletHoles.bulletHoles[bulletCounter % (int)ammoPerMag].transform.rotation = Quaternion.LookRotation(hitInfo.normal);
 
-        //Hiteffect
-        GameObject impactGO = Instantiate(impactEffect, hitInfo.point, Quaternion.LookRotation(hitInfo.normal));
-        Destroy(impactGO, 2f);
+            //Hiteffect
+            GameObject impactSand = Instantiate(sandImpactEffect, hitInfo.point, Quaternion.LookRotation(hitInfo.normal));
+            Destroy(impactSand, 2f);
+        }
+
     }
 
 
