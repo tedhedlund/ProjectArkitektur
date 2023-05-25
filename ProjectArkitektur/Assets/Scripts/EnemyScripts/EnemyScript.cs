@@ -8,7 +8,9 @@ using UnityEngine.InputSystem.Android;
 public class EnemyScript : MonoBehaviour
 {
     [SerializeField] NavMeshAgent agent;
-    [SerializeField] Player_Controller player;
+    Player_Controller player;
+    [SerializeField] GameObject playerGO;
+
 
     public ZombieState currentState;
 
@@ -40,6 +42,9 @@ public class EnemyScript : MonoBehaviour
     {
         currentState = ZombieState.Idle;
         agent.speed = originalSpeed;
+
+        playerGO = GameObject.FindGameObjectWithTag("Player");
+        player = playerGO.GetComponent<Player_Controller>();
 
         ammoBoxToSpawn = GameObject.FindGameObjectWithTag("AmmoBox");
     }
