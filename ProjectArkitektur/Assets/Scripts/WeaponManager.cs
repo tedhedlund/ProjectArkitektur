@@ -7,6 +7,9 @@ public class WeaponManager : MonoBehaviour
 {
     // This index refers to the children of component using this Script, with 0 being the first child
     public int selectedWeapon = 0;
+    [SerializeField] private ARPickUp ARPickUp;
+    
+    
 
     // Start is called before the first frame update
     void Start()
@@ -17,9 +20,11 @@ public class WeaponManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        SelectWeaponWithScroll();
-        SelectWeaponWithKey();
-       
+        if(ARPickUp.arPickedUp)
+        {
+            SelectWeaponWithScroll();
+            SelectWeaponWithKey();
+        }      
     }
 
     void SelectWeaponWithScroll()

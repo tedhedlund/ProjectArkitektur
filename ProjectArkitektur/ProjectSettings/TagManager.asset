@@ -6,6 +6,8 @@ TagManager:
   tags:
   - AR
   - HandGun
+  - ARPickup
+  - Zombie
   layers:
   - Default
   - TransparentFX
