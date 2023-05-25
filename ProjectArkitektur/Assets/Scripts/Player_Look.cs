@@ -5,7 +5,7 @@ using UnityEngine;
 public class Player_Look : MonoBehaviour
 {
     [Header("Mouse settings")]
-    [SerializeField] public float sensitivity;
+    [SerializeField] private float sensitivity;
     [SerializeField] private float clampLookDown;
     [SerializeField] private float clampLookUp;
 
