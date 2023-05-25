@@ -9,6 +9,7 @@ TagManager:
   - ARPickup
   - Zombie
   - AmmoBox
+  - UI
   layers:
   - Default
   - TransparentFX

@@ -19,6 +19,8 @@ public class EnemyScript : MonoBehaviour
     //[SerializeField] private AudioManager audioManager;
     [SerializeField] private float timeBetweenSounds;
     [SerializeField] private AudioSource[] zombieSounds;
+    [SerializeField] GameObject UI;
+    UIModelScript UiModel;
 
     float walkTimer = 0f;
 
@@ -45,6 +47,8 @@ public class EnemyScript : MonoBehaviour
 
         playerGO = GameObject.FindGameObjectWithTag("Player");
         player = playerGO.GetComponent<Player_Controller>();
+        UI = GameObject.FindGameObjectWithTag("UI");
+        UiModel = UI.GetComponent<UIModelScript>();
 
         ammoBoxToSpawn = GameObject.FindGameObjectWithTag("AmmoBox");
     }
@@ -168,6 +172,7 @@ public class EnemyScript : MonoBehaviour
                         agent.speed = 0;
                         dmgPlayer = false;
                         gameObject.GetComponent<Collider>().enabled = false;
+                        UiModel.curKills++;
                     }
                     isDead = true;
                     break;
