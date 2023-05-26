@@ -147,7 +147,7 @@ public class EnemyScript : MonoBehaviour
             case ZombieState.Hitting:
                 {
                     agent.speed = 1;
-                    Vector3 target = new Vector3(player.transform.position.x, this.transform.position.y, player.transform.position.z);
+                    Vector3 target = new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z);
                     agent.transform.LookAt(target);
                     if(dmgPlayer)
                     {
