@@ -6,7 +6,10 @@ public class EnemySpawner : MonoBehaviour
 {
     public Transform enemyPrefab;
     public Transform spawnPoint;
+    public Transform areaUnlockObject;
     public Player_Controller player;
+    public UIModelScript UIModelScript;
+    public int numberOfKills;
 
     public float timeBetweenWaves;
     public float countdown;
@@ -31,21 +34,29 @@ public class EnemySpawner : MonoBehaviour
 
         countdown = Mathf.Clamp(countdown, 0f, Mathf.Infinity);
         currDist = Vector3.Distance(transform.position, player.transform.position);
+
+        if (UIModelScript.curKills >= numberOfKills)
+        {
+            Destroy(areaUnlockObject.gameObject);
+        } 
     }
 
     IEnumerator SpawnWave()
     {
-        if (waveNumber < 5)
+        if (areaUnlockObject == null) 
         {
-            waveNumber++;
-        }
-
-        if (currDist < 75f)
-        {
-            for (int i = 0; i < waveNumber; i++)
+            if (waveNumber < 5)
             {
-                SpawnEnemy();
-                yield return new WaitForSeconds(0.75f);
+                waveNumber++;
+            }
+
+            if (currDist < 75f)
+            {
+                for (int i = 0; i < waveNumber; i++)
+                {
+                    SpawnEnemy();
+                    yield return new WaitForSeconds(0.75f);
+                }
             }
         }
     }
