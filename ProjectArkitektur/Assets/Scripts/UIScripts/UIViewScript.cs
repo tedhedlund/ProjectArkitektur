@@ -15,6 +15,9 @@ public class UIViewScript : MonoBehaviour
     [SerializeField] TMP_Text ammoTotalText;
     [SerializeField] TMP_Text killsText;
 
+    [SerializeField] GameObject hitImage;
+    float timer = 0f;
+
     public void UpdateHealth(int health)
     {
         healthText.text = health.ToString();
@@ -33,6 +36,18 @@ public class UIViewScript : MonoBehaviour
     public void UpdateKills(int kills)
     {
         killsText.text = kills.ToString();
+    }
+
+    public void UpdateHit()
+    {
+        StartCoroutine(ActivationRoutine());
+    }
+
+    IEnumerator ActivationRoutine()
+    {
+        hitImage.SetActive(true);
+        yield return new WaitForSeconds(0.1f);
+        hitImage.SetActive(false);
     }
 
 }

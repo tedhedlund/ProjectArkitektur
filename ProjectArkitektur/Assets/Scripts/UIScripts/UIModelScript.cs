@@ -35,5 +35,10 @@ public class UIModelScript : MonoBehaviour
     {
         uiView.UpdateKills(curKills);
     }
+
+    public void UpdateHitImage()
+    {
+        uiView.UpdateHit();
+    }
     
 }

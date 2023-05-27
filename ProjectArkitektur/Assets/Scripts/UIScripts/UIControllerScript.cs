@@ -12,11 +12,27 @@ public class UIControllerScript : MonoBehaviour
     [SerializeField] GunController handGunController;
     [SerializeField] GunController ARGunController;
 
+    public float currentHealth = 0f;
+   
+    private void Start()
+    {
+        currentHealth = pController.health;
+    }
+
     // Update is called once per frame
     void Update()
     {
         uiModel.playerHealth = pController.health;
         uiModel.UpdateViewlHealth();
+
+        if(currentHealth > pController.health) 
+        {          
+            if(pController.playerAlive)
+            {
+                uiModel.UpdateHitImage();
+                currentHealth = pController.health;
+            }                 
+        }
 
         if(weaponManager.selectedWeapon == 0)
         {

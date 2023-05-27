@@ -8,6 +8,7 @@ public class RestartScript : MonoBehaviour
 {
 
     [SerializeField] Player_Controller pController;
+    float timer = 0f;
 
     // Update is called once per frame
     void Update()
@@ -22,14 +23,19 @@ public class RestartScript : MonoBehaviour
         }
         else
         {
+            timer += Time.deltaTime;
+           
             foreach (Transform child in transform)
             {
                 child.gameObject.SetActive(true);
             }
-            if (Input.anyKey)
+            if (timer >= 4f)
             {
-                SceneManager.LoadScene(0);
-            }
+                if (Input.anyKey)
+                {
+                    SceneManager.LoadScene(0);
+                }
+            }          
         }
     }
 }
