@@ -76,6 +76,7 @@ public class EnemyScript : MonoBehaviour
             
             currentState = ZombieState.Death;
             deathTimer += Time.deltaTime;
+            transform.GetComponent<Collider>().enabled = false;
 
             if(deathTimer >= 20f)
             {
@@ -118,29 +119,33 @@ public class EnemyScript : MonoBehaviour
             case ZombieState.Walking:
                 {
                     //Debug.Log("Walking");
+
                     agent.speed = originalSpeed;
                     agent.destination = player.transform.position;
                     dmgPlayer = false;
+
                     //int rnd = Random.Range(0, audioManager.ZombieRandom.Length - 1);
                     //if (!audioManager.ZombieRandom[rnd].isPlaying)
                     //{
                     //    audioManager.ZombieRandom[rnd].Play();
                     //}
-                   
+
                     break;
                 }
 
             case ZombieState.Chasing:
                 {
                     //Debug.Log("Chasing");
+
                     agent.speed = chaseSpeed;
                     agent.destination = player.transform.position;
                     dmgPlayer = false;
+
                     //if (!audioManager.zombieChase.isPlaying)
                     //{
                     //    audioManager.zombieChase.Play();
                     //}
-                    
+
                     break;
                 }
 

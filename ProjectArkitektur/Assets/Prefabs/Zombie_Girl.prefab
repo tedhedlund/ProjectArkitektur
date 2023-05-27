@@ -153,6 +153,7 @@ MonoBehaviour:
   - {fileID: 7584543615774876028}
   - {fileID: 7402234230615555304}
   - {fileID: 3045188201428035263}
+  UI: {fileID: 0}
   dmgPlayer: 0
   playerDist: 0
   newVolume: 0
@@ -167,8 +168,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 0.36962157, z: 1.4474297}
-  m_Center: {x: 0, y: 0.3034543, z: 0.7552083}
+  m_Size: {x: 0.4, y: 0.0025, z: 1.4474297}
+  m_Center: {x: 0, y: 0.06, z: 0.82}
 --- !u!82 &2566489969384514717
 AudioSource:
   m_ObjectHideFlags: 0

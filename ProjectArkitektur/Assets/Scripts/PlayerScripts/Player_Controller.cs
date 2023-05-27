@@ -121,11 +121,11 @@ public class Player_Controller : MonoBehaviour
 
     private void ToggleCrouch()
     {
-        if (crouchStatus == CrouchStatus.crouching && player.height > crouchHeight)
+        if (crouchStatus == CrouchStatus.crouching && player.height > crouchHeight && moveStatus != MoveStatus.sprinting)
         {
             player.height = Mathf.Lerp(player.height, crouchHeight, crouchSpeed);
         }
-        else if(crouchStatus == CrouchStatus.standing && player.height < standHeight)
+        else if(crouchStatus == CrouchStatus.standing && player.height < standHeight && moveStatus != MoveStatus.sprinting)
         {
             player.height = Mathf.Lerp(player.height, standHeight, standUpSpeed);
         }

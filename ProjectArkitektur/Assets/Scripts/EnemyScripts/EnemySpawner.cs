@@ -9,7 +9,7 @@ public class EnemySpawner : MonoBehaviour
     public Transform areaUnlockObject;
     public Player_Controller player;
     public UIModelScript UIModelScript;
-    public int numberOfKills;
+    public int numberOfKills = 0;
 
     public float timeBetweenWaves;
     public float countdown;

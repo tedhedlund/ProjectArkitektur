@@ -10,6 +10,7 @@ TagManager:
   - Zombie
   - AmmoBox
   - UI
+  - InvisWall
   layers:
   - Default
   - TransparentFX
@@ -17,8 +18,8 @@ TagManager:
   - Ground
   - Water
   - UI
-  - 
-  - 
+  - IgnorePostPros
+  - PostPros
   - 
   - 
   - 

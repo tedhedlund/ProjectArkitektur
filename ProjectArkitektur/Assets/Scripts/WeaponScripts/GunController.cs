@@ -50,6 +50,7 @@ public class GunController : MonoBehaviour
     public Quaternion sprintRot; //= Quaternion.Euler(12.88f, 354.68f, 25.5f);
     public Quaternion adsRot; //= Quaternion.Euler(359.6f, 0f, 0f);
     private Quaternion hipRot;
+    public Vector3 bulletPenetrationPos;
 
     private bool ammoEmpty = false;
     private bool firing = false;
@@ -60,6 +61,7 @@ public class GunController : MonoBehaviour
     private float nextFire;
     private float defaultAnimSpeed = 1.0f;
     private float debugBobSpeed;
+    public float offset;
 
     public int currentAmmoInMag;    //Används i HUD
     public int currentTotalAmmo;    //Används i AmmoObserver och HUD
@@ -302,17 +304,33 @@ public class GunController : MonoBehaviour
                 Vector3 newFireDir = newHitPos - startPos;
                 if (Physics.Raycast(startPos, newFireDir, out hitInfo, range, ~ignoreRaycast))
                 {
-                    HandleBulletHit(hitInfo);
+                    HandleBulletHit(hitInfo, damage);
                 }
+
+                HandleBulletPenetration(newFireDir, hitInfo);
             }
             else
             {
-                HandleBulletHit(hitInfo);
+                HandleBulletHit(hitInfo, damage);
+                HandleBulletPenetration(fpsCamera.cameraTransform.forward, hitInfo);
+            }          
+        }
+    }
+
+    void HandleBulletPenetration(Vector3 direction, RaycastHit hitInfo)
+    {
+        if (hitInfo.transform.tag == "Zombie" && !hitInfo.transform.GetComponent<Collider>().isTrigger)
+        {
+            bulletPenetrationPos = hitInfo.point - (hitInfo.normal * offset);
+
+            if(Physics.Raycast(bulletPenetrationPos, direction, out hitInfo, range, ~ignoreRaycast))
+            {
+                HandleBulletHit(hitInfo, damage / 2);
             }
         }
     }
 
-    void HandleBulletHit(RaycastHit hitInfo)
+    void HandleBulletHit(RaycastHit hitInfo, float damage)
     {
         Debug.Log(hitInfo.transform.name);
         if (hitInfo.transform.tag == "Zombie")
@@ -323,7 +341,7 @@ public class GunController : MonoBehaviour
 
             hitInfo.transform.gameObject.SendMessageUpwards("TakeDamage", damage);
         }
-        else
+        else if(hitInfo.transform.tag != "InvisWall")
         {
             bulletHoles.bulletHoles[bulletCounter++ % (int)ammoPerMag].transform.position = hitInfo.point - Camera.main.transform.forward * 0.01f /*targetDirection.normalized * 0.01f*/;
             bulletHoles.bulletHoles[bulletCounter % (int)ammoPerMag].transform.rotation = Quaternion.LookRotation(hitInfo.normal);
