@@ -5,24 +5,27 @@ using UnityEngine;
 public class ARPickUp : MonoBehaviour
 {
 
-    private GameObject player;
+    private GameObject player, ARgun;
     private Vector3 distance;
     public bool arPickedUp = false;
+
+    
 
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+        ARgun = GameObject.FindGameObjectWithTag("ARPickup");
+        
     }
 
     private void Update()
     {
-        if (2 >= Vector3.Distance(this.transform.position, player.transform.position) /*&& player.money >= 100*/ && Input.GetKeyDown(KeyCode.E))
+        if (3 >= Vector3.Distance(this.transform.position, player.transform.position))
         {
 
-            Debug.Log("E pressed");
-
+            
             arPickedUp = true;
-            Destroy(this);
+            Destroy(ARgun);
             
         }
         distance = gameObject.transform.position - player.transform.position;

@@ -20,7 +20,7 @@ public class WeaponManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(ARPickUp.arPickedUp)
+        if(ARPickUp.arPickedUp == true)
         {
             SelectWeaponWithScroll();
             SelectWeaponWithKey();
@@ -31,39 +31,46 @@ public class WeaponManager : MonoBehaviour
     {
         int previousSelectedWeapon = selectedWeapon;
 
-        if (Input.GetAxis("Mouse ScrollWheel") > 0f)
-        {
-            if (selectedWeapon >= transform.childCount - 1)
-                selectedWeapon = 0;
-            else
-                selectedWeapon++;
-        }
-        if (Input.GetAxis("Mouse ScrollWheel") < 0f)
-        {
-            if (selectedWeapon <= 0)
-                selectedWeapon = transform.childCount - 1;
-            else
-                selectedWeapon--;
-        }
+        
+        
+            if (Input.GetAxis("Mouse ScrollWheel") > 0f)
+            {
+                if (selectedWeapon >= transform.childCount - 1)
+                    selectedWeapon = 0;
+                else
+                    selectedWeapon++;
+            }
+            if (Input.GetAxis("Mouse ScrollWheel") < 0f)
+            {
+                if (selectedWeapon <= 0)
+                    selectedWeapon = transform.childCount - 1;
+                else
+                    selectedWeapon--;
+            }
 
-        if (previousSelectedWeapon != selectedWeapon)
-        {
-            SelectWeapon();
-        }
+            if (previousSelectedWeapon != selectedWeapon)
+            {
+                SelectWeapon();
+            } 
+        
     }
 
     void SelectWeaponWithKey()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            selectedWeapon = 0;
-            SelectWeapon();
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            selectedWeapon = 1;
-            SelectWeapon();
-        }
+
+        
+        
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                selectedWeapon = 0;
+                SelectWeapon();
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                selectedWeapon = 1;
+                SelectWeapon();
+            } 
+        
     }
 
     void SelectWeapon()
