@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    public Transform enemyPrefab;
-    public Transform spawnPoint;
-    public Transform areaUnlockObject;
-    public Player_Controller player;
-    public UIModelScript UIModelScript;
+    [SerializeField] Transform enemyPrefab;
+    [SerializeField] Transform spawnPoint;
+    [SerializeField] Transform areaUnlockObject;
+    [SerializeField] Player_Controller player;
+    [SerializeField] UIModelScript UIModelScript;
     public int numberOfKills = 0;
 
     public float timeBetweenWaves;
     public float countdown;
-
-    int waveNumber;
+    
+    private int waveNumber;
     private float currDist;
 
     private void Start()
@@ -35,10 +35,10 @@ public class EnemySpawner : MonoBehaviour
         countdown = Mathf.Clamp(countdown, 0f, Mathf.Infinity);
         currDist = Vector3.Distance(transform.position, player.transform.position);
 
-        if (UIModelScript.curKills >= numberOfKills)
+        if (UIModelScript.curKills >= numberOfKills && areaUnlockObject != null)
         {
             Destroy(areaUnlockObject.gameObject);
-        } 
+        }
     }
 
     IEnumerator SpawnWave()
