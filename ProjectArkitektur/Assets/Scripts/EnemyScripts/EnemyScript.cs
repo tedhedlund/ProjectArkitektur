@@ -229,7 +229,7 @@ public class EnemyScript : MonoBehaviour
             hasIncrementedDeathCounter = true;
         }
 
-        int ammoSpawnInterval = 2;
+        int ammoSpawnInterval = Random.Range(10, 20);
         if (!hasInstantiatedAmmoBox && deathCounter == ammoSpawnInterval)
         {
             float yOffset = 1.5f;

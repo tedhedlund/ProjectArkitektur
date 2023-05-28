@@ -5,22 +5,19 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] Transform enemyPrefab;
+    //[SerializeField] int maxSpawn;
+    //List<Transform> enemyList= new List<Transform>();
+
     [SerializeField] Transform spawnPoint;
     [SerializeField] Transform areaUnlockObject;
     [SerializeField] Player_Controller player;
     [SerializeField] UIModelScript UIModelScript;
-    public int numberOfKills = 0;
-
-    public float timeBetweenWaves;
-    public float countdown;
+    [SerializeField] int numberOfKills = 0;
+    [SerializeField] float timeBetweenWaves;
+    [SerializeField] float countdown;
     
     private int waveNumber;
     private float currDist;
-
-    private void Start()
-    {
-        waveNumber = Random.Range(1, 3);
-    }
 
     public void Update()
     {
@@ -45,12 +42,14 @@ public class EnemySpawner : MonoBehaviour
     {
         if (areaUnlockObject == null) 
         {
+            //waveNumber++;
+
             if (waveNumber < 5)
             {
                 waveNumber++;
             }
 
-            if (currDist < 75f)
+            if (currDist < 75f /*&& enemyList.Count <= maxSpawn*/)
             {
                 for (int i = 0; i < waveNumber; i++)
                 {
@@ -64,5 +63,7 @@ public class EnemySpawner : MonoBehaviour
     public void SpawnEnemy()
     {
         Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
+        //var spawnedEnemy = Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
+        //enemyList.Add(spawnedEnemy);
     }
 }
