@@ -78,7 +78,7 @@ public class EnemyScript : MonoBehaviour
             deathTimer += Time.deltaTime;
             transform.GetComponent<Collider>().enabled = false;
 
-            if(deathTimer >= 20f)
+            if(deathTimer >= 10f)
             {
                 Destroy(gameObject);
             }
